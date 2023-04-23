@@ -32,10 +32,10 @@ type ConfigOptions = {
 };
 
 const config: ConfigOptions = {
-  api: { prefix: "/ai/api" },
+  api: { prefix: "/auth/api" },
   app: {
     env: process.env.APP_ENV as AppEnv,
-    name: process.env.APP_NAME || "app",
+    name: process.env.APP_NAME || "auth-service",
     version: process.env.APP_VERSION!,
   },
   aws: {
