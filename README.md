@@ -12,3 +12,11 @@ This is also an example of the "dollar full stack app". The goal is to
 ## IaC
 
 See [https://github.com/ikenley/template-infrastructure](https://github.com/ikenley/template-infrastructure)
+
+## TODO
+
+- /login
+    - dynamo OauthState {id: uuid, redirectUrl: string, startedAt: Date, completedAt Date | null}
+- /login/callback
+- /logout
+- GET /token/refresh
