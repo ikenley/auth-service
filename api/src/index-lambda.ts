@@ -1,13 +1,13 @@
 import "reflect-metadata";
 import "express-async-errors";
-//import "source-map-support/register";
+import { container } from "tsyringe";
 import serverlessExpress from "@vendia/serverless-express";
 import { ALBEvent, Context } from "aws-lambda";
 import config from "./config";
 import express from "express";
 import Logger from "./loaders/logger";
 import loadGlobalDependencies from "./loaders/loadGlobalDependencies";
-import loadExpress from "./loaders/ExpressLoader";
+import ExpressLoader from "./loaders/ExpressLoader";
 
 let serverlessExpressInstance: any = null;
 
@@ -17,7 +17,8 @@ const setup = async (event: ALBEvent, context: Context) => {
   // Register dependencies
   await loadGlobalDependencies();
   // Configure Express
-  await loadExpress({ app });
+  const expressLoader = container.resolve(ExpressLoader);
+  await expressLoader.load(app);
 
   app
     .listen(config.port, () => {
