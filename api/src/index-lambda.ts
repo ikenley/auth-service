@@ -7,7 +7,7 @@ import config from "./config";
 import express from "express";
 import Logger from "./loaders/logger";
 import loadGlobalDependencies from "./loaders/loadGlobalDependencies";
-import loadExpress from "./loaders/loadExpress";
+import loadExpress from "./loaders/ExpressLoader";
 
 let serverlessExpressInstance: any = null;
 
@@ -38,8 +38,8 @@ const setup = async (event: ALBEvent, context: Context) => {
 
 /** Main entrypoint for Lambda function version of express app */
 export const handler = (event: ALBEvent, context: Context) => {
-  console.log("event", event)
-  
+  console.log("event", event);
+
   if (serverlessExpressInstance) {
     return serverlessExpressInstance(event, context);
   }

@@ -1,10 +1,11 @@
 import "reflect-metadata";
 import "express-async-errors";
+import { container } from "tsyringe";
 import config from "./config";
 import express from "express";
 import Logger from "./loaders/logger";
 import loadGlobalDependencies from "./loaders/loadGlobalDependencies";
-import loadExpress from "./loaders/loadExpress";
+import ExpressLoader from "./loaders/ExpressLoader";
 
 async function startServer() {
   const app = express();
@@ -12,7 +13,8 @@ async function startServer() {
   // Register dependencies
   await loadGlobalDependencies();
   // Configure Express
-  await loadExpress({app})
+  const expressLoader = container.resolve(ExpressLoader);
+  await expressLoader.load(app);
 
   app
     .listen(config.port, () => {

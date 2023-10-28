@@ -7,7 +7,7 @@ dotenv.config();
 
 type AppEnv = "local" | "test" | "dev" | "staging" | "prod";
 
-type ConfigOptions = {
+export class ConfigOptions {
   api: { prefix: string };
   app: { env: AppEnv; name: string; version: string };
   aws: {
@@ -29,7 +29,7 @@ type ConfigOptions = {
   logs: { level: string };
   nodeEnv: string;
   port: number;
-};
+}
 
 const config: ConfigOptions = {
   api: { prefix: "/auth/api" },

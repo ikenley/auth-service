@@ -15,8 +15,12 @@ See [https://github.com/ikenley/template-infrastructure](https://github.com/iken
 
 ## TODO
 
+- refactor controllers to be Services
 - /login
     - dynamo OauthState {id: uuid, redirectUrl: string, startedAt: Date, completedAt Date | null}
 - /login/callback
 - /logout
 - GET /token/refresh
+
+
+https://auth-test.ikenley.com/login?response_type=code&client_id=<COGNITO_USER_POOL_CLIENT_ID>&redirect_uri=http://localhost:8088/auth/api/status
