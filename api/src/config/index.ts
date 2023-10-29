@@ -17,8 +17,8 @@ export class ConfigOptions {
     oathUrlPrefix: string;
     oauthRedirectUri: string;
     userPoolId: string;
-    userPoolClientId: string;
-    userPoolClientSecret: string;
+    clientId: string;
+    clientSecret: string;
   };
   // db: {
   //   host: string;
@@ -47,8 +47,8 @@ const config: ConfigOptions = {
     oathUrlPrefix: process.env.COGNITO_OAUTH_URL_PREFIX!,
     oauthRedirectUri: process.env.COGNITO_OAUTH_REDIRECT_URI!,
     userPoolId: process.env.COGNITO_USER_POOL_ID!,
-    userPoolClientId: process.env.COGNITO_USER_POOL_CLIENT_ID!,
-    userPoolClientSecret: process.env.COGNITO_USER_POOL_CLIENT_SECRET!,
+    clientId: process.env.COGNITO_USER_POOL_CLIENT_ID!,
+    clientSecret: process.env.COGNITO_USER_POOL_CLIENT_SECRET!,
   },
   // db: {
   //   host: process.env.DB_HOST!,

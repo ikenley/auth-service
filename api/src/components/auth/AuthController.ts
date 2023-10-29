@@ -14,6 +14,12 @@ export default class AuthController {
       return container.resolve(AuthService);
     };
 
+    route.get("/login", async (_req, res) => {
+      const service = getService(res);
+      const redirectUrl = await service.initiateLogin();
+      res.redirect(redirectUrl);
+    });
+
     route.get("/callback", async (req, res) => {
       const code = req.query.code as string;
       const service = getService(res);

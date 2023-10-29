@@ -16,13 +16,30 @@ export default class AuthService {
     this.logger = loggerProvider.provide("AuthService");
   }
 
+  /** Initiate login for Cognito hosted UI:
+   * https://docs.aws.amazon.com/cognito/latest/developerguide/login-endpoint.html
+   * This is an Oauth 2.0 Authorization Code flow:
+   * https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow
+   * This will return a redirect to the Amazon Cognito hosted UI.
+   */
+  public async initiateLogin() {
+    const { oathUrlPrefix, oauthRedirectUri, clientId } = this.config.cognito;
+
+    const redirectUri = encodeURIComponent(oauthRedirectUri);
+
+    return `${oathUrlPrefix}/login?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
+  }
+
+  /** Exchange authorization code for id/access/refresh token.
+   * https://docs.aws.amazon.com/cognito/latest/developerguide/token-endpoint.html
+   */
   public async handleOathCallback(code: string) {
     this.logger.info("handleOathCallback", { code });
 
     const requestBody = new URLSearchParams({
       grant_type: "authorization_code",
-      client_id: this.config.cognito.userPoolClientId,
-      client_secret: this.config.cognito.userPoolClientSecret,
+      client_id: this.config.cognito.clientId,
+      client_secret: this.config.cognito.clientSecret,
       code: code,
       redirect_uri: this.config.cognito.oauthRedirectUri,
     });

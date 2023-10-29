@@ -28,4 +28,4 @@ See [https://github.com/ikenley/template-infrastructure](https://github.com/iken
     - lambda version
     - CI/CD
 
-https://auth-test.ikenley.com/login?response_type=code&client_id=<COGNITO_USER_POOL_CLIENT_ID>&redirect_uri=http://localhost:8088/auth/api/status
+http://localhost:8088/auth/api/auth/login
