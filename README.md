@@ -27,13 +27,8 @@ git submodule add https://github.com/ikenley/prediction-app.git
 
 ## TODO
 
-- handle federated duplicates
-    - https://stackoverflow.com/questions/59635482/aws-cognito-best-practice-to-handle-same-user-with-same-email-address-signing
-    - https://stackoverflow.com/questions/64811626/how-to-link-aws-cognito-native-user-to-the-federated-user
-- postgres / flyway migrations
-- typeorm setup
 - /login
-    - auth.iam.oauth_state {id: uuid, redirect_url: string, started_at: Date, completed_at Date | null}
+    - redirect URL param (restrict by domain or /)
 - /login/callback
     - Cookie refreshToken
     - Upsert auth.iam.user
@@ -44,6 +39,9 @@ git submodule add https://github.com/ikenley/prediction-app.git
     - Migrations separate codepipeline
     - lambda version
     - CI/CD
+- handle federated duplicates
+    - https://stackoverflow.com/questions/59635482/aws-cognito-best-practice-to-handle-same-user-with-same-email-address-signing
+    - https://stackoverflow.com/questions/64811626/how-to-link-aws-cognito-native-user-to-the-federated-user
 
 http://localhost:8088/auth/api/auth/login
 
