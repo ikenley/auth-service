@@ -1,12 +1,14 @@
 import { container } from "tsyringe";
 import { NIL } from "uuid";
+import { DataSource } from "typeorm";
 import LoggerInstance from "./logger";
 //import CognitoExpress from "cognito-express";
 import { ConfigOptions, config } from "../config";
 import { LoggerToken } from "./logger";
 import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware";
+import { initializeDataSource } from "../data_source";
 
-export default () => {
+export default async () => {
   try {
     container.register(ConfigOptions, { useValue: config });
 
@@ -23,6 +25,10 @@ export default () => {
     //   tokenExpiration: 3600000,
     // });
     // container.register("CognitoExpress", { useValue: cognitoExpress });
+
+    // Register database connection
+    const dataSource = await initializeDataSource(LoggerInstance);
+    container.register(DataSource, { useValue: dataSource });
   } catch (e) {
     LoggerInstance.error("🔥 Error on dependency injector loader: %o", e);
     throw e;

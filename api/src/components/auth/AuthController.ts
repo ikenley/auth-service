@@ -1,5 +1,6 @@
 import { DependencyContainer, injectable } from "tsyringe";
-import { Response, Router } from "express";
+import { Request, Response, Router } from "express";
+import { CallbackRequestParams } from "../../types";
 import AuthService from "./AuthService";
 
 const route = Router();
@@ -20,11 +21,13 @@ export default class AuthController {
       res.redirect(redirectUrl);
     });
 
-    route.get("/callback", async (req, res) => {
-      const code = req.query.code as string;
-      const service = getService(res);
-      const result = await service.handleOathCallback(code);
-      res.send(result);
-    });
+    route.get(
+      "/callback",
+      async (req: Request<{}, {}, {}, CallbackRequestParams>, res) => {
+        const service = getService(res);
+        const result = await service.handleOathCallback(req.query);
+        res.send(result);
+      }
+    );
   }
 }

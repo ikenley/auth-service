@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 // Set the NODE_ENV to 'development' by default
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
-dotenv.config();
+dotenv.config({ path: "../.env" });
 
 type AppEnv = "local" | "test" | "dev" | "staging" | "prod";
 
@@ -20,14 +20,13 @@ export class ConfigOptions {
     clientId: string;
     clientSecret: string;
   };
-  // db: {
-  //   host: string;
-  //   port: number;
-  //   user: string;
-  //   password: string;
-  //   database: string;
-  //   schema: string;
-  // };
+  db: {
+    host: string;
+    port: number;
+    user: string;
+    password: string;
+    database: string;
+  };
   logs: { level: string };
   nodeEnv: string;
   port: number;
@@ -50,14 +49,13 @@ const config: ConfigOptions = {
     clientId: process.env.COGNITO_USER_POOL_CLIENT_ID!,
     clientSecret: process.env.COGNITO_USER_POOL_CLIENT_SECRET!,
   },
-  // db: {
-  //   host: process.env.DB_HOST!,
-  //   port: parseInt(process.env.DB_PORT!),
-  //   user: process.env.DB_USER!,
-  //   password: process.env.DB_PASSWORD!,
-  //   database: process.env.DB_DATABASE!,
-  //   schema: process.env.DB_SCEHMA!,
-  // },
+  db: {
+    host: process.env.PGHOST!,
+    port: parseInt(process.env.PGPORT!),
+    user: process.env.PGUSER!,
+    password: process.env.PGPASSWORD!,
+    database: process.env.PGDATABASE!,
+  },
   logs: { level: process.env.LOGS__LEVEL || "http" },
   nodeEnv: process.env.NODE_ENV,
   port: parseInt(process.env.PORT || "8080", 10),

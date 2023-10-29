@@ -1,0 +1,3 @@
+[submodule "prediction-app"]
+	path = prediction-app
+	url = https://github.com/ikenley/prediction-app.git
