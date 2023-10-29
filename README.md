@@ -15,12 +15,17 @@ See [https://github.com/ikenley/template-infrastructure](https://github.com/iken
 
 ## TODO
 
-- refactor controllers to be Services
+- postgres / flyway migrations
 - /login
-    - dynamo OauthState {id: uuid, redirectUrl: string, startedAt: Date, completedAt Date | null}
+    - auth.iam.oauth_state {id: uuid, redirect_url: string, started_at: Date, completed_at Date | null}
 - /login/callback
+    - Cookie refreshToken
+    - Upsert auth.iam.user
 - /logout
 - GET /token/refresh
-
+- Terraform changes
+    - Migrations separate codepipeline
+    - lambda version
+    - CI/CD
 
 https://auth-test.ikenley.com/login?response_type=code&client_id=<COGNITO_USER_POOL_CLIENT_ID>&redirect_uri=http://localhost:8088/auth/api/status
