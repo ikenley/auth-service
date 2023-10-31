@@ -15,6 +15,12 @@ export type OauthStateType = {
   userId: string | null;
 };
 
+export type LoginRequestParams = {
+  r: string;
+};
+
+export type LogoutRequestParams = LoginRequestParams;
+
 export type CallbackRequestParams = {
   code: string;
   state: string;

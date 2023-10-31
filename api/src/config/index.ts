@@ -13,6 +13,7 @@ export class ConfigOptions {
   aws: {
     region: string;
   };
+  baseDomain: string | null;
   cognito: {
     oathUrlPrefix: string;
     oauthRedirectUri: string;
@@ -42,6 +43,7 @@ const config: ConfigOptions = {
   aws: {
     region: process.env.AWS_REGION!,
   },
+  baseDomain: process.env.BASE_DOMAIN || null,
   cognito: {
     oathUrlPrefix: process.env.COGNITO_OAUTH_URL_PREFIX!,
     oauthRedirectUri: process.env.COGNITO_OAUTH_REDIRECT_URI!,

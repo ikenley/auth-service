@@ -3,6 +3,7 @@ import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 import logger from "./logger";
 import config from "../config";
 import dependencyInjectionMiddleware from "../middleware/dependencyInjectionMiddleware";
@@ -28,6 +29,9 @@ export default class ExpressLoader {
 
     // Transforms the raw string of req.body into json
     app.use(express.json());
+
+    // Add cookies
+    app.use(cookieParser());
 
     // Log HTTP requests
     app.use(

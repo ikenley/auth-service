@@ -6,10 +6,11 @@ import { v4 as uuidv4 } from "uuid";
 import { jwtDecode } from "jwt-decode";
 import { URLSearchParams } from "url";
 import { ConfigOptions } from "../../config";
-import { CallbackRequestParams } from "../../types";
+import { CallbackRequestParams, LoginRequestParams } from "../../types";
 import LoggerProvider from "../../utils/LoggerProvider";
 import OauthStateEntity from "./OauthStateEntity";
 import UserEntity from "./UserEntity";
+import LoginRequest from "./LoginRequest";
 
 @injectable()
 export default class AuthService {
@@ -33,11 +34,13 @@ export default class AuthService {
    * https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow
    * This will return a redirect to the Amazon Cognito hosted UI.
    */
-  public async initiateLogin() {
+  public async initiateLogin(params: LoginRequestParams) {
+    const req = new LoginRequest(params, this.config.baseDomain);
     const { oathUrlPrefix, oauthRedirectUri, clientId } = this.config.cognito;
+    this.logger.info("initiateLogin", { req });
 
     // Create oauth state
-    const oauthState = await this.createOauthState();
+    const oauthState = await this.createOauthState(req.redirectUrl);
 
     // Create redirect URI
     const redirectUri = encodeURIComponent(oauthRedirectUri);
@@ -45,10 +48,10 @@ export default class AuthService {
   }
 
   /** Create and store OAuth state record */
-  private async createOauthState() {
+  private async createOauthState(redirectUrl: string) {
     const oauthState: OauthStateEntity = {
       id: uuidv4(),
-      redirectUrl: "TODO",
+      redirectUrl: redirectUrl,
       startedAt: new Date(),
       completedAt: null,
       userId: null,
@@ -100,7 +103,7 @@ export default class AuthService {
     oauthState.completedAt = new Date();
     await this.oauthStateRepo.save(oauthState);
 
-    return refreshToken;
+    return { refreshToken, redirectUrl: oauthState.redirectUrl };
   }
 
   /** Upserts user in identity token into auth.user table. */
