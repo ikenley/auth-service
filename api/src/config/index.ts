@@ -16,7 +16,7 @@ export class ConfigOptions {
   baseDomain: string | null;
   cognito: {
     oathUrlPrefix: string;
-    oauthRedirectUri: string;
+    oauthRedirectUrlPrefix: string;
     userPoolId: string;
     clientId: string;
     clientSecret: string;
@@ -46,7 +46,7 @@ const config: ConfigOptions = {
   baseDomain: process.env.BASE_DOMAIN || null,
   cognito: {
     oathUrlPrefix: process.env.COGNITO_OAUTH_URL_PREFIX!,
-    oauthRedirectUri: process.env.COGNITO_OAUTH_REDIRECT_URI!,
+    oauthRedirectUrlPrefix: process.env.COGNITO_OAUTH_REDIRECT_URL_PREFIX!,
     userPoolId: process.env.COGNITO_USER_POOL_ID!,
     clientId: process.env.COGNITO_USER_POOL_CLIENT_ID!,
     clientSecret: process.env.COGNITO_USER_POOL_CLIENT_SECRET!,

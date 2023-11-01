@@ -1,6 +1,6 @@
 import { DependencyContainer, injectable } from "tsyringe";
 import { Request, Response, Router } from "express";
-import { LoginRequestParams, CallbackRequestParams } from "../../types";
+import { LoginRequestParams, LoginCallbackRequestParams } from "../../types";
 import { ConfigOptions } from "../../config";
 import AuthService from "./AuthService";
 
@@ -30,28 +30,36 @@ export default class AuthController {
     );
 
     route.get(
-      "/callback",
-      async (req: Request<{}, {}, {}, CallbackRequestParams>, res) => {
+      "/login/callback",
+      async (req: Request<{}, {}, {}, LoginCallbackRequestParams>, res) => {
         const service = getService(res);
-        const { redirectUrl, refreshToken } = await service.handleOathCallback(
+        const { redirectUrl, refreshToken } = await service.handleLoginCallback(
           req.query
         );
 
         // Set cookie
         const expiryDate = new Date();
         expiryDate.setTime(new Date().getTime() + 30 * 60 * 60 * 1000); // +30 days
-        const domain = this.config.baseDomain
-          ? `.${this.config.baseDomain}`
-          : undefined;
+        const isLocal = this.config.app.env === "local";
+        const domain = isLocal ? undefined : `.${this.config.baseDomain}`;
         res.cookie(RefreshCookieName, refreshToken, {
           expires: expiryDate,
           httpOnly: true,
           sameSite: "strict",
           // enable http for localhost only
-          secure: this.config.baseDomain ? true : false,
+          secure: isLocal ? false : true,
           domain: domain,
         });
 
+        res.redirect(redirectUrl);
+      }
+    );
+
+    route.get(
+      "/logout",
+      async (req: Request<{}, {}, {}, LoginRequestParams>, res) => {
+        const service = getService(res);
+        const redirectUrl = await service.initiateLogout(req.query);
         res.redirect(redirectUrl);
       }
     );

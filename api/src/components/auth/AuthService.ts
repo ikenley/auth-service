@@ -6,7 +6,11 @@ import { v4 as uuidv4 } from "uuid";
 import { jwtDecode } from "jwt-decode";
 import { URLSearchParams } from "url";
 import { ConfigOptions } from "../../config";
-import { CallbackRequestParams, LoginRequestParams } from "../../types";
+import {
+  LoginCallbackRequestParams,
+  LoginRequestParams,
+  WorkflowType,
+} from "../../types";
 import LoggerProvider from "../../utils/LoggerProvider";
 import OauthStateEntity from "./OauthStateEntity";
 import UserEntity from "./UserEntity";
@@ -36,25 +40,41 @@ export default class AuthService {
    */
   public async initiateLogin(params: LoginRequestParams) {
     const req = new LoginRequest(params, this.config.baseDomain);
-    const { oathUrlPrefix, oauthRedirectUri, clientId } = this.config.cognito;
+    const { oathUrlPrefix, clientId } = this.config.cognito;
     this.logger.info("initiateLogin", { req });
 
     // Create oauth state
-    const oauthState = await this.createOauthState(req.redirectUrl);
+    const oauthState = await this.createOauthState(
+      req.redirectUrl,
+      WorkflowType.login
+    );
 
     // Create redirect URI
-    const redirectUri = encodeURIComponent(oauthRedirectUri);
+    const oauthRedirectUrl = this.getRedirectUrl(WorkflowType.login);
+    const redirectUri = encodeURIComponent(oauthRedirectUrl);
     return `${oathUrlPrefix}/login?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${oauthState.id}`;
   }
 
+  private getRedirectUrl(workflowType: WorkflowType) {
+    const { oauthRedirectUrlPrefix } = this.config.cognito;
+
+    const action = workflowType === WorkflowType.login ? "login" : "logout";
+
+    return `${oauthRedirectUrlPrefix}/auth/api/${action}/callback`;
+  }
+
   /** Create and store OAuth state record */
-  private async createOauthState(redirectUrl: string) {
+  private async createOauthState(
+    redirectUrl: string,
+    workflowType: WorkflowType
+  ) {
     const oauthState: OauthStateEntity = {
       id: uuidv4(),
-      redirectUrl: redirectUrl,
+      redirectUrl,
       startedAt: new Date(),
       completedAt: null,
       userId: null,
+      workflowType,
     };
     await this.oauthStateRepo.save(oauthState);
     this.logger.info("createOauthState", {
@@ -67,16 +87,18 @@ export default class AuthService {
   /** Exchange authorization code for id/access/refresh token.
    * https://docs.aws.amazon.com/cognito/latest/developerguide/token-endpoint.html
    */
-  public async handleOathCallback(params: CallbackRequestParams) {
-    this.logger.info("handleOathCallback", { params });
+  public async handleLoginCallback(params: LoginCallbackRequestParams) {
+    this.logger.info("handleLoginCallback", { params });
     const { code, state } = params;
+
+    const redirectUri = this.getRedirectUrl(WorkflowType.login);
 
     const requestBody = new URLSearchParams({
       grant_type: "authorization_code",
       client_id: this.config.cognito.clientId,
       client_secret: this.config.cognito.clientSecret,
       code: code,
-      redirect_uri: this.config.cognito.oauthRedirectUri,
+      redirect_uri: redirectUri,
     });
     const response = await axios.post(
       `${this.config.cognito.oathUrlPrefix}/oauth2/token`,
@@ -135,5 +157,19 @@ export default class AuthService {
     }
 
     return user;
+  }
+
+  /** Initiate logout for Cognito hosted UI:
+   * https://docs.aws.amazon.com/cognito/latest/developerguide/logout-endpoint.html
+   * This will return a redirect to the Amazon Cognito hosted UI.
+   */
+  public async initiateLogout(params: LoginRequestParams) {
+    const req = new LoginRequest(params, this.config.baseDomain);
+    const { oathUrlPrefix, clientId } = this.config.cognito;
+    this.logger.info("initiateLogout", { req });
+
+    // Create redirect URI
+    const redirectUri = encodeURIComponent(req.redirectUrl);
+    return `${oathUrlPrefix}/logout?client_id=${clientId}&logout_uri=${redirectUri}`;
   }
 }

@@ -27,8 +27,7 @@ git submodule add https://github.com/ikenley/prediction-app.git
 
 ## TODO
 
-- /logout
-- GET /token/refresh
+- POST /token/refresh
 - auth service account user + migration
 - Terraform changes
     - Migrations separate codepipeline
@@ -39,4 +38,6 @@ git submodule add https://github.com/ikenley/prediction-app.git
     - https://stackoverflow.com/questions/64811626/how-to-link-aws-cognito-native-user-to-the-federated-user
 
 http://localhost:8088/auth/api/login?r=/auth/api/status
+
+http://localhost:8088/auth/api/logout?r=http://localhost:8088/auth/api/status
 

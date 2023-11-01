@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
-import { OauthStateType } from "../../types";
+import { OauthStateType, WorkflowType } from "../../types";
 
 @Entity({ schema: "auth", name: "oauth_state" })
 export default class OauthStateEntity implements OauthStateType {
@@ -17,4 +17,12 @@ export default class OauthStateEntity implements OauthStateType {
 
   @Column({ type: "varchar", name: "user_id", nullable: true })
   userId: string | null;
+
+  @Column({
+    type: "enum",
+    enum: WorkflowType,
+    name: "workflow_type",
+    default: WorkflowType.login,
+  })
+  workflowType: WorkflowType;
 }
