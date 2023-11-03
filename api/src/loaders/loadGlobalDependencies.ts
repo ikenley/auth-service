@@ -1,6 +1,7 @@
 import { container } from "tsyringe";
 import { NIL } from "uuid";
 import { DataSource } from "typeorm";
+import { CognitoIdentityProviderClient } from "@aws-sdk/client-cognito-identity-provider";
 import LoggerInstance from "./logger";
 //import CognitoExpress from "cognito-express";
 import { ConfigOptions, config } from "../config";
@@ -25,6 +26,11 @@ export default async () => {
     //   tokenExpiration: 3600000,
     // });
     // container.register("CognitoExpress", { useValue: cognitoExpress });
+
+    const cognitoIdpClient = new CognitoIdentityProviderClient() as any;
+    container.register(CognitoIdentityProviderClient, {
+      useValue: cognitoIdpClient,
+    });
 
     // Register database connection
     const dataSource = await initializeDataSource(LoggerInstance);

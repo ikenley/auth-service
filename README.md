@@ -27,7 +27,7 @@ git submodule add https://github.com/ikenley/prediction-app.git
 
 ## TODO
 
-- POST /token/refresh
+- cognito configure name properties
 - auth service account user + migration
 - Terraform changes
     - Migrations separate codepipeline

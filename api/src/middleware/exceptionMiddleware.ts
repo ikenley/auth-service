@@ -16,17 +16,26 @@ export const exceptionMiddleware = (
 
   const { message, stack } = err;
 
-  LoggerInstance.info(`config.nodeEnv=${config.nodeEnv}`, config.nodeEnv);
-  LoggerInstance.error(defaultMessage, {
-    errorMessage: message,
-    stack,
-    module: "exceptionMiddleware",
-  });
+  const status = err.status || 500;
 
-  res.status(err.status || 500);
-  res.json({
-    errors: { errorId, message: isProduction ? defaultMessage : err.message },
-  });
+  if (status === 500) {
+    LoggerInstance.info(`config.nodeEnv=${config.nodeEnv}`, config.nodeEnv);
+    LoggerInstance.error(defaultMessage, {
+      errorMessage: message,
+      stack,
+      module: "exceptionMiddleware",
+    });
+
+    res.status(err.status || 500);
+    res.json({
+      errors: { errorId, message: isProduction ? defaultMessage : err.message },
+    });
+  }
+  // For non-500 errors, return message content
+  else {
+    res.status(status);
+    res.json(err.message);
+  }
 };
 
 export default exceptionMiddleware;

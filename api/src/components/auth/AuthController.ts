@@ -63,5 +63,12 @@ export default class AuthController {
         res.redirect(redirectUrl);
       }
     );
+
+    route.post("/refresh", async (req, res) => {
+      const refreshToken = req.cookies[RefreshCookieName];
+      const service = getService(res);
+      const idToken = await service.refresh(refreshToken);
+      res.send(idToken);
+    });
   }
 }

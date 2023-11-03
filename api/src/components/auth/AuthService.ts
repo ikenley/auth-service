@@ -5,12 +5,17 @@ import { DataSource, Repository } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 import { jwtDecode } from "jwt-decode";
 import { URLSearchParams } from "url";
+import {
+  CognitoIdentityProviderClient,
+  AdminInitiateAuthCommand,
+} from "@aws-sdk/client-cognito-identity-provider";
 import { ConfigOptions } from "../../config";
 import {
   LoginCallbackRequestParams,
   LoginRequestParams,
   WorkflowType,
 } from "../../types";
+import UnauthorizedException from "../../middleware/UnauthorizedException";
 import LoggerProvider from "../../utils/LoggerProvider";
 import OauthStateEntity from "./OauthStateEntity";
 import UserEntity from "./UserEntity";
@@ -25,7 +30,8 @@ export default class AuthService {
   constructor(
     protected loggerProvider: LoggerProvider,
     protected config: ConfigOptions,
-    protected dataSource: DataSource
+    protected dataSource: DataSource,
+    protected cognitoIdpClient: CognitoIdentityProviderClient
   ) {
     this.logger = loggerProvider.provide("AuthService");
     this.oauthStateRepo = dataSource.getRepository(OauthStateEntity);
@@ -171,5 +177,42 @@ export default class AuthService {
     // Create redirect URI
     const redirectUri = encodeURIComponent(req.redirectUrl);
     return `${oathUrlPrefix}/logout?client_id=${clientId}&logout_uri=${redirectUri}`;
+  }
+
+  /** Exchange a refresh token for an ID token. */
+  public async refresh(refreshToken: string) {
+    if (!refreshToken) {
+      throw new UnauthorizedException();
+    }
+
+    const { userPoolId, clientId, clientSecret } = this.config.cognito;
+    const command = new AdminInitiateAuthCommand({
+      UserPoolId: userPoolId,
+      ClientId: clientId,
+      AuthFlow: "REFRESH_TOKEN_AUTH",
+      AuthParameters: {
+        REFRESH_TOKEN: refreshToken,
+        SECRET_HASH: clientSecret,
+      },
+    });
+
+    try {
+      const response = await this.cognitoIdpClient.send(command);
+
+      if (
+        !response.AuthenticationResult ||
+        !response.AuthenticationResult.IdToken
+      ) {
+        this.logger.info("empty AuthenticationResult");
+        throw new UnauthorizedException();
+      }
+
+      const idToken = response.AuthenticationResult.IdToken;
+
+      return idToken;
+    } catch (e: any) {
+      this.logger.info("refresh catch", { e });
+      throw new UnauthorizedException();
+    }
   }
 }
