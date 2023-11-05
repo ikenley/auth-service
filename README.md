@@ -27,12 +27,7 @@ git submodule add https://github.com/ikenley/prediction-app.git
 
 ## TODO
 
-- cognito configure name properties
-- auth service account user + migration
-- Terraform changes
-    - Migrations separate codepipeline
-    - lambda version
-    - CI/CD
+- refactor lambda entrypoint to pull env values from ssm param
 - handle federated duplicates
     - https://stackoverflow.com/questions/59635482/aws-cognito-best-practice-to-handle-same-user-with-same-email-address-signing
     - https://stackoverflow.com/questions/64811626/how-to-link-aws-cognito-native-user-to-the-federated-user
