@@ -1,6 +1,7 @@
 import winston from "winston";
-import config from "../config";
+import { getConfigOptions } from "../config";
 
+const config = getConfigOptions();
 export const LoggerToken = "logger";
 
 const transports = [];

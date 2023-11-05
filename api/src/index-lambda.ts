@@ -3,7 +3,7 @@ import "express-async-errors";
 import { container } from "tsyringe";
 import serverlessExpress from "@vendia/serverless-express";
 import { ALBEvent, Context } from "aws-lambda";
-import config from "./config";
+import { getConfigOptions } from "./config";
 import express from "express";
 import Logger from "./loaders/logger";
 import loadGlobalDependencies from "./loaders/loadGlobalDependencies";
@@ -12,6 +12,7 @@ import ExpressLoader from "./loaders/ExpressLoader";
 let serverlessExpressInstance: any = null;
 
 const setup = async (event: ALBEvent, context: Context) => {
+  const config = getConfigOptions();
   const app = express();
 
   // Register dependencies

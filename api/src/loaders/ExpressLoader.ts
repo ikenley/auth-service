@@ -5,7 +5,7 @@ import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import logger from "./logger";
-import config from "../config";
+import { getConfigOptions } from "../config";
 import dependencyInjectionMiddleware from "../middleware/dependencyInjectionMiddleware";
 import exceptionMiddleware from "../middleware/exceptionMiddleware";
 import RouteService from "../routes/RouteService";
@@ -15,6 +15,7 @@ export default class ExpressLoader {
   constructor(protected routeService: RouteService) {}
 
   public load(app: express.Application) {
+    const config = getConfigOptions();
     // Useful if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
     // It shows the real origin IP in the heroku or Cloudwatch logs
     app.enable("trust proxy");

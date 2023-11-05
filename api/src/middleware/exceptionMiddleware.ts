@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
-import config from "../config";
+import { getConfigOptions } from "../config";
 import LoggerInstance from "../loaders/logger";
 import { v4 as uuidv4 } from "uuid";
+
+const config = getConfigOptions();
 
 export const exceptionMiddleware = (
   err: any,

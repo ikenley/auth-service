@@ -1,13 +1,14 @@
 import "reflect-metadata";
 import "express-async-errors";
 import { container } from "tsyringe";
-import config from "./config";
+import { getConfigOptions } from "./config";
 import express from "express";
 import Logger from "./loaders/logger";
 import loadGlobalDependencies from "./loaders/loadGlobalDependencies";
 import ExpressLoader from "./loaders/ExpressLoader";
 
 async function startServer() {
+  const config = getConfigOptions();
   const app = express();
 
   // Register dependencies

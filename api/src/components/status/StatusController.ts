@@ -1,11 +1,13 @@
 import { injectable } from "tsyringe";
 import { Router } from "express";
-import config from "../../config";
+import { ConfigOptions } from "../../config";
 
 const route = Router();
 
 @injectable()
 export default class StatusController {
+  constructor(protected config: ConfigOptions) {}
+
   public registerRoutes(app: Router) {
     app.use("/status", route);
 
@@ -18,7 +20,7 @@ export default class StatusController {
     });
 
     route.get("/info", (_req, res) => {
-      res.send(config.app);
+      res.send(this.config.app);
     });
   }
 }

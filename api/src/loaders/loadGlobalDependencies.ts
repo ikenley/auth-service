@@ -4,13 +4,14 @@ import { DataSource } from "typeorm";
 import { CognitoIdentityProviderClient } from "@aws-sdk/client-cognito-identity-provider";
 import LoggerInstance from "./logger";
 //import CognitoExpress from "cognito-express";
-import { ConfigOptions, config } from "../config";
+import { ConfigOptions, getConfigOptions } from "../config";
 import { LoggerToken } from "./logger";
 import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware";
 import { initializeDataSource } from "../data_source";
 
 export default async () => {
   try {
+    const config = getConfigOptions();
     container.register(ConfigOptions, { useValue: config });
 
     container.register(LoggerToken, { useValue: LoggerInstance });
@@ -33,7 +34,7 @@ export default async () => {
     });
 
     // Register database connection
-    const dataSource = await initializeDataSource(LoggerInstance);
+    const dataSource = await initializeDataSource(LoggerInstance, config.db);
     container.register(DataSource, { useValue: dataSource });
   } catch (e) {
     LoggerInstance.error("🔥 Error on dependency injector loader: %o", e);
