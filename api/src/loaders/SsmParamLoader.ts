@@ -31,7 +31,6 @@ export default class SsmParamLoader {
   /** Load each key-value pair into env vars */
   private loadIntoEnv(config: object) {
     for (const [key, value] of Object.entries(config)) {
-      console.log(`${key}: ${value}`);
       process.env[key] = value;
     }
   }
