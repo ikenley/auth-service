@@ -17,6 +17,20 @@
             "env": {
                 "NODE_ENV": "development"
             }
+        },
+        {
+            "name": "test-invoke",
+            "type": "node",
+            "request": "launch",
+            "outputCapture": "std",
+            "cwd": "${workspaceRoot}/api",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run-script", "test-invoke"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            }
         }
     ]
 }
