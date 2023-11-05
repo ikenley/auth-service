@@ -12,7 +12,6 @@ import { initializeDataSource } from "../data_source";
 export default async () => {
   try {
     const config = getConfigOptions();
-    console.log("config", config);
     container.register(ConfigOptions, { useValue: config });
 
     container.register(LoggerToken, { useValue: LoggerInstance });
