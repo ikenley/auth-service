@@ -60,6 +60,9 @@ export default class AuthController {
       async (req: Request<{}, {}, {}, LoginRequestParams>, res) => {
         const service = getService(res);
         const redirectUrl = await service.initiateLogout(req.query);
+
+        res.clearCookie(RefreshCookieName);
+
         res.redirect(redirectUrl);
       }
     );

@@ -36,3 +36,4 @@ localhost:8088/auth/api/login?r=/auth/api/status
 
 http://localhost:8088/auth/api/logout?r=http://localhost:8088/auth/api/status
 
+https://api.auth-service.ikenley.com/auth/api/logout?r=https://api.auth-service.ikenley.com/auth/api/status
