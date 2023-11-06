@@ -39,7 +39,7 @@ export default class AuthController {
 
         // Set cookie
         const expiryDate = new Date();
-        expiryDate.setTime(new Date().getTime() + 30 * 60 * 60 * 1000); // +30 days
+        expiryDate.setTime(new Date().getTime() + 30 * 24 * 60 * 60 * 1000); // +30 days
         const isLocal = this.config.app.env === "local";
         const domain = isLocal ? undefined : `.${this.config.baseDomain}`;
         res.cookie(RefreshCookieName, refreshToken, {
