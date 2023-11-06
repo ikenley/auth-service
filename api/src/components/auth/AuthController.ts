@@ -31,12 +31,9 @@ export default class AuthController {
     );
 
     const getCookieOptions = () => {
-      const expiryDate = new Date();
-      expiryDate.setTime(new Date().getTime() + 30 * 24 * 60 * 60 * 1000); // +30 days
       const isLocal = this.config.app.env === "local";
       const domain = isLocal ? undefined : `.${this.config.baseDomain}`;
       const cookieOptions: CookieOptions = {
-        expires: expiryDate,
         httpOnly: true,
         sameSite: "strict",
         // enable http for localhost only
@@ -56,6 +53,10 @@ export default class AuthController {
 
         // Set cookie
         const cookieOptions = getCookieOptions();
+        cookieOptions.expires = new Date();
+        cookieOptions.expires.setTime(
+          new Date().getTime() + 30 * 24 * 60 * 60 * 1000
+        ); // +30 days
         res.cookie(RefreshCookieName, refreshToken, cookieOptions);
 
         res.redirect(redirectUrl);
