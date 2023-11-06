@@ -27,13 +27,7 @@ git submodule add https://github.com/ikenley/prediction-app.git
 
 ## TODO
 
-- refactor lambda entrypoint to pull env values from ssm param
+- create app which consumes this service
 - handle federated duplicates
     - https://stackoverflow.com/questions/59635482/aws-cognito-best-practice-to-handle-same-user-with-same-email-address-signing
     - https://stackoverflow.com/questions/64811626/how-to-link-aws-cognito-native-user-to-the-federated-user
-
-localhost:8088/auth/api/login?r=/auth/api/status
-
-http://localhost:8088/auth/api/logout?r=http://localhost:8088/auth/api/status
-
-https://api.auth-service.ikenley.com/auth/api/logout?r=https://api.auth-service.ikenley.com/auth/api/status
