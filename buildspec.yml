@@ -1,0 +1,39 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - echo Logging into DockerHub
+      - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - CWD=$(pwd)
+  build:
+    commands:
+      - echo Build started on `date`
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - echo "IMAGE_TAG=$IMAGE_TAG"
+      - echo "Building API-layer Docker image..."
+      - cd api
+      - IMAGE_URI="$REPOSITORY_URL:$IMAGE_TAG"
+      - echo IMAGE_URI=$IMAGE_URI
+      - docker build -t $REPOSITORY_NAME:$IMAGE_TAG -f Dockerfile-lambda --build-arg APP_VERSION=$IMAGE_TAG .
+      - docker tag $REPOSITORY_NAME:$IMAGE_TAG $IMAGE_URI
+      # - echo "Building front-end..."
+      # - cd "$CWD/frontend"
+      # - REACT_APP_VERSION=$IMAGE_TAG
+      # - echo "REACT_APP_VERSION=$REACT_APP_VERSION"
+      # - npm ci
+      # - npm run build
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo "Deploying the API layer lambda function"
+      - echo Pushing the Docker image...
+      - docker push $REPOSITORY_URL:$IMAGE_TAG
+      - echo "Updating lambda function image_uri..."
+      - aws lambda update-function-code --no-paginate --function-name $FUNCTION_NAME --image-uri $IMAGE_URI
+      # - echo "Deploying the frontend static S3 site..."
+      # - aws s3 rm s3://${SITE_S3_BUCKET_NAME}/${SITE_S3_KEY_PREFIX} --recursive
+      # - aws s3 cp ./build/ s3://${SITE_S3_BUCKET_NAME}/${SITE_S3_KEY_PREFIX} --recursive
+      # - aws cloudfront create-invalidation --distribution-id $CDN_DISTRIBUTION_ID --paths "/*"
