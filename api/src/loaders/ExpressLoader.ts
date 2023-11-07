@@ -35,6 +35,7 @@ export default class ExpressLoader {
 
     const corsConfig = {
       origin: getCorsOrigin(config),
+      credentials: true,
     };
     app.use(cors(corsConfig));
 
