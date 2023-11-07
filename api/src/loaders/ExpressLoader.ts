@@ -5,10 +5,20 @@ import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import logger from "./logger";
-import { getConfigOptions } from "../config";
+import { ConfigOptions, getConfigOptions } from "../config";
 import dependencyInjectionMiddleware from "../middleware/dependencyInjectionMiddleware";
 import exceptionMiddleware from "../middleware/exceptionMiddleware";
 import RouteService from "../routes/RouteService";
+
+const getCorsOrigin = (config: ConfigOptions) => {
+  const { baseDomain, app } = config;
+  if (!baseDomain || baseDomain === "" || app.env === "local") {
+    return undefined;
+  }
+
+  const domainPattern = baseDomain.replace(/\./g, "\\.");
+  return new RegExp(`${domainPattern}:?\\d*$`);
+};
 
 @injectable()
 export default class ExpressLoader {
@@ -23,7 +33,10 @@ export default class ExpressLoader {
     // Security against common threats
     app.use(helmet());
 
-    app.use(cors());
+    const corsConfig = {
+      origin: getCorsOrigin(config),
+    };
+    app.use(cors(corsConfig));
 
     // "Lets you use HTTP verbs such as PUT or DELETE in places where the client doesn't support it."
     app.use(require("method-override")());

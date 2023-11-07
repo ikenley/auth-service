@@ -28,7 +28,9 @@ export default async () => {
     // });
     // container.register("CognitoExpress", { useValue: cognitoExpress });
 
-    const cognitoIdpClient = new CognitoIdentityProviderClient() as any;
+    const cognitoIdpClient = new CognitoIdentityProviderClient({
+      region: config.aws.region,
+    }) as any;
     container.register(CognitoIdentityProviderClient, {
       useValue: cognitoIdpClient,
     });
