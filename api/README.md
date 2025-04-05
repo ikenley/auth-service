@@ -5,6 +5,7 @@ Boilerplate application for creating a REST-ful API using Typscript + Node
 ## Getting Started
 
 ```
+git submodule update --init --recursive
 cp ./.env.example .env
 cd api
 npm install
@@ -18,8 +19,9 @@ npm run start
 This project can be run as a Lambda function behind an Application Load Balancer to save money.
 
 Example commands below taken from [Deploy Node.js Lambda functions with container images](https://docs.aws.amazon.com/lambda/latest/dg/nodejs-image.html):
+
 ```
-# Build the Docker image 
+# Build the Docker image
 docker build -t ik-dev-ai-lambda-test:test -f Dockerfile-lambda --build-arg VERSION=TEST .
 
 # Start the Docker image with the docker run command.
@@ -50,5 +52,3 @@ docker tag typescript-node-boilerplate:latest typescript-node-boilerplate:1.0.0
 ```
 
 ---
-
-
