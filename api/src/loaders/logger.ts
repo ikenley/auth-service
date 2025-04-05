@@ -21,7 +21,8 @@ if (process.env.NODE_ENV === "test") {
           winston.format.metadata({
             fillExcept: ["message", "level", "timestamp", "label"],
           }),
-          winston.format.printf(({ timestamp, level, message, metadata }) => {
+          winston.format.printf((info) => {
+            const { timestamp, level, message, metadata } = info as any;
             const moduleName = metadata?.module ? ` [${metadata.module}]` : "";
             return `${timestamp} ${level}${moduleName}: ${message} ${
               metadata ? JSON.stringify(metadata) : ""
