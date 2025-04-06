@@ -1,5 +1,4 @@
 import "reflect-metadata";
-import "express-async-errors";
 import { container } from "tsyringe";
 import { getConfigOptions } from "./config";
 import express from "express";

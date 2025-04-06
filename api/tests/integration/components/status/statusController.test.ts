@@ -17,7 +17,7 @@ afterAll(async () => {
 describe("Test the root path", () => {
   test("It should response the GET method", async () => {
     const app = express();
-    await require("./loaders").default({ expressApp: app });
+    await require("../../../../src/loaders").default({ expressApp: app });
 
     const response = await request(app).get("/status");
 
