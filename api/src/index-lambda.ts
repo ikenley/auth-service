@@ -1,5 +1,4 @@
 import "reflect-metadata";
-import "express-async-errors";
 import { container } from "tsyringe";
 import serverlessExpress from "@vendia/serverless-express";
 import { ALBEvent, Context } from "aws-lambda";
