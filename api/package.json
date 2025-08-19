@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity-provider": "^3.826.0",
-    "@aws-sdk/client-ssm": "^3.803.0",
+    "@aws-sdk/client-ssm": "^3.864.0",
     "@vendia/serverless-express": "^4.12.6",
     "axios": "^1.9.0",
     "cookie-parser": "^1.4.7",
