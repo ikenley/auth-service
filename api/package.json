@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Boilerplate for Typescript Node application",
   "main": "src/index.ts",
+  "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "cli": "ts-node src/cli.ts",
