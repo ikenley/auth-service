@@ -5,10 +5,10 @@ import { ALBEvent, Context } from "aws-lambda";
 import { SSMClient } from "@aws-sdk/client-ssm";
 import { getConfigOptions } from "./config/index.js";
 import express from "express";
-import Logger from "./loaders/logger";
-import SsmParamLoader from "./loaders/SsmParamLoader";
-import loadGlobalDependencies from "./loaders/loadGlobalDependencies";
-import ExpressLoader from "./loaders/ExpressLoader";
+import Logger from "./loaders/logger.js";
+import SsmParamLoader from "./loaders/SsmParamLoader.js";
+import loadGlobalDependencies from "./loaders/loadGlobalDependencies.js";
+import ExpressLoader from "./loaders/ExpressLoader.js";
 
 let serverlessExpressInstance: any = null;
 

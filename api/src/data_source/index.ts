@@ -1,7 +1,7 @@
 import { DataSource } from "typeorm";
 import { DatabaseOptions } from "../config/index.js";
-import OauthStateEntity from "../components/auth/OauthStateEntity";
-import UserEntity from "../components/auth/UserEntity";
+import OauthStateEntity from "../components/auth/OauthStateEntity.js";
+import UserEntity from "../components/auth/UserEntity.js";
 import { Logger } from "winston";
 
 export const entities = [OauthStateEntity, UserEntity];

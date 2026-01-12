@@ -1,6 +1,6 @@
 import { container } from "tsyringe";
-import loadGlobalDependencies from "./loadGlobalDependencies";
-import ExpressLoader from "./ExpressLoader";
+import loadGlobalDependencies from "./loadGlobalDependencies.js";
+import ExpressLoader from "./ExpressLoader.js";
 import express from "express";
 
 interface LoaderOptions {

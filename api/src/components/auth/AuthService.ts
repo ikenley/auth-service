@@ -15,11 +15,11 @@ import {
   LoginRequestParams,
   WorkflowType,
 } from "../../types/index.js";
-import UnauthorizedException from "../../middleware/UnauthorizedException";
-import LoggerProvider from "../../utils/LoggerProvider";
-import OauthStateEntity from "./OauthStateEntity";
-import UserEntity from "./UserEntity";
-import LoginRequest from "./LoginRequest";
+import UnauthorizedException from "../../middleware/UnauthorizedException.js";
+import LoggerProvider from "../../utils/LoggerProvider.js";
+import OauthStateEntity from "./OauthStateEntity.js";
+import UserEntity from "./UserEntity.js";
+import LoginRequest from "./LoginRequest.js";
 
 @injectable()
 export default class AuthService {

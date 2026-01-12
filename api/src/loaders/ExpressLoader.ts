@@ -5,11 +5,11 @@ import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
-import logger from "./logger";
+import logger from "./logger.js";
 import { ConfigOptions, getConfigOptions } from "../config/index.js";
-import dependencyInjectionMiddleware from "../middleware/dependencyInjectionMiddleware";
-import exceptionMiddleware from "../middleware/exceptionMiddleware";
-import RouteService from "../routes/RouteService";
+import dependencyInjectionMiddleware from "../middleware/dependencyInjectionMiddleware.js";
+import exceptionMiddleware from "../middleware/exceptionMiddleware.js";
+import RouteService from "../routes/RouteService.js";
 
 const getCorsOrigin = (config: ConfigOptions) => {
   const { baseDomain, app } = config;
