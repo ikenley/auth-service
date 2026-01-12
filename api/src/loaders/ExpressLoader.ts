@@ -4,6 +4,7 @@ import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import methodOverride from "method-override";
 import logger from "./logger";
 import { ConfigOptions, getConfigOptions } from "../config";
 import dependencyInjectionMiddleware from "../middleware/dependencyInjectionMiddleware";
@@ -40,7 +41,7 @@ export default class ExpressLoader {
     app.use(cors(corsConfig));
 
     // "Lets you use HTTP verbs such as PUT or DELETE in places where the client doesn't support it."
-    app.use(require("method-override")());
+    app.use(methodOverride());
 
     // Transforms the raw string of req.body into json
     app.use(express.json());

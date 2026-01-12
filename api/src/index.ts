@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { container } from "tsyringe";
-import { getConfigOptions } from "./config";
+import { getConfigOptions } from "./config/index";
 import express from "express";
 import Logger from "./loaders/logger";
 import loadGlobalDependencies from "./loaders/loadGlobalDependencies";
