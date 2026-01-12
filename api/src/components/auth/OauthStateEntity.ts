@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
-import { OauthStateType, WorkflowType } from "../../types";
+import { OauthStateType, WorkflowType } from "../../types/index.js";
 
 @Entity({ schema: "auth", name: "oauth_state" })
 export default class OauthStateEntity implements OauthStateType {

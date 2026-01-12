@@ -1,8 +1,8 @@
 import { DependencyContainer, injectable } from "tsyringe";
 import { Request, Response, Router } from "express";
 import { CookieOptions } from "express";
-import { LoginRequestParams, LoginCallbackRequestParams } from "../../types";
-import { ConfigOptions } from "../../config";
+import { LoginRequestParams, LoginCallbackRequestParams } from "../../types/index.js";
+import { ConfigOptions } from "../../config/index.js";
 import AuthService from "./AuthService";
 
 const RefreshCookieName = "refresh";

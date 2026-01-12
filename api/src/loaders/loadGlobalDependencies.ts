@@ -4,10 +4,10 @@ import { DataSource } from "typeorm";
 import { CognitoIdentityProviderClient } from "@aws-sdk/client-cognito-identity-provider";
 import LoggerInstance from "./logger";
 //import CognitoExpress from "cognito-express";
-import { ConfigOptions, getConfigOptions } from "../config";
+import { ConfigOptions, getConfigOptions } from "../config/index.js";
 import { LoggerToken } from "./logger";
 import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware";
-import { initializeDataSource } from "../data_source";
+import { initializeDataSource } from "../data_source/index.js";
 
 export default async () => {
   try {

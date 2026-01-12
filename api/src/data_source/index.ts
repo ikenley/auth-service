@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm";
-import { DatabaseOptions } from "../config";
+import { DatabaseOptions } from "../config/index.js";
 import OauthStateEntity from "../components/auth/OauthStateEntity";
 import UserEntity from "../components/auth/UserEntity";
 import { Logger } from "winston";

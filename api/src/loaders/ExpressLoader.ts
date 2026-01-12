@@ -6,7 +6,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 import logger from "./logger";
-import { ConfigOptions, getConfigOptions } from "../config";
+import { ConfigOptions, getConfigOptions } from "../config/index.js";
 import dependencyInjectionMiddleware from "../middleware/dependencyInjectionMiddleware";
 import exceptionMiddleware from "../middleware/exceptionMiddleware";
 import RouteService from "../routes/RouteService";
