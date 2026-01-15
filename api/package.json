@@ -23,7 +23,7 @@
     "url": "https://github.com/ikenley/auth-service"
   },
   "dependencies": {
-    "@aws-sdk/client-cognito-identity-provider": "^3.962.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.969.0",
     "@aws-sdk/client-ssm": "^3.967.0",
     "@vendia/serverless-express": "^4.12.6",
     "axios": "^1.13.2",
