@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
-import { UserType } from "../../types";
+import { UserType } from "../../types/index.js";
 
 @Entity({ schema: "auth", name: "user" })
 export default class UserEntity implements UserType {

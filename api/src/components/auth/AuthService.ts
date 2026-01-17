@@ -9,17 +9,17 @@ import {
   CognitoIdentityProviderClient,
   AdminInitiateAuthCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
-import { ConfigOptions } from "../../config";
+import { ConfigOptions } from "../../config/index.js";
 import {
   LoginCallbackRequestParams,
   LoginRequestParams,
   WorkflowType,
-} from "../../types";
-import UnauthorizedException from "../../middleware/UnauthorizedException";
-import LoggerProvider from "../../utils/LoggerProvider";
-import OauthStateEntity from "./OauthStateEntity";
-import UserEntity from "./UserEntity";
-import LoginRequest from "./LoginRequest";
+} from "../../types/index.js";
+import UnauthorizedException from "../../middleware/UnauthorizedException.js";
+import LoggerProvider from "../../utils/LoggerProvider.js";
+import OauthStateEntity from "./OauthStateEntity.js";
+import UserEntity from "./UserEntity.js";
+import LoginRequest from "./LoginRequest.js";
 
 @injectable()
 export default class AuthService {

@@ -1,10 +1,10 @@
 import "reflect-metadata";
 import { container } from "tsyringe";
-import { getConfigOptions } from "./config";
+import { getConfigOptions } from "./config/index.js";
 import express from "express";
-import Logger from "./loaders/logger";
-import loadGlobalDependencies from "./loaders/loadGlobalDependencies";
-import ExpressLoader from "./loaders/ExpressLoader";
+import Logger from "./loaders/logger.js";
+import loadGlobalDependencies from "./loaders/loadGlobalDependencies.js";
+import ExpressLoader from "./loaders/ExpressLoader.js";
 
 async function startServer() {
   const config = getConfigOptions();

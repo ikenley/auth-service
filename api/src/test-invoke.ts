@@ -1,4 +1,4 @@
-import { handler } from "./index-lambda";
+import { handler } from "./index-lambda.js";
 import { ALBEvent, Context } from "aws-lambda";
 
 const event: ALBEvent = {

@@ -1,7 +1,7 @@
 import { injectable } from "tsyringe";
 import { Router } from "express";
-import AuthController from "../components/auth/AuthController";
-import StatusController from "../components/status/StatusController";
+import AuthController from "../components/auth/AuthController.js";
+import StatusController from "../components/status/StatusController.js";
 
 @injectable()
 export default class RouteService {

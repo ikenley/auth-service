@@ -2,12 +2,12 @@ import { container } from "tsyringe";
 import { NIL } from "uuid";
 import { DataSource } from "typeorm";
 import { CognitoIdentityProviderClient } from "@aws-sdk/client-cognito-identity-provider";
-import LoggerInstance from "./logger";
+import LoggerInstance from "./logger.js";
 //import CognitoExpress from "cognito-express";
-import { ConfigOptions, getConfigOptions } from "../config";
-import { LoggerToken } from "./logger";
-import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware";
-import { initializeDataSource } from "../data_source";
+import { ConfigOptions, getConfigOptions } from "../config/index.js";
+import { LoggerToken } from "./logger.js";
+import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware.js";
+import { initializeDataSource } from "../data_source/index.js";
 
 export default async () => {
   try {

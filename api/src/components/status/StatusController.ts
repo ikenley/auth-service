@@ -1,6 +1,6 @@
 import { injectable } from "tsyringe";
 import { Router } from "express";
-import { ConfigOptions } from "../../config";
+import { ConfigOptions } from "../../config/index.js";
 
 const route = Router();
 

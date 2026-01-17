@@ -1,5 +1,5 @@
 import winston from "winston";
-import { getConfigOptions } from "../config";
+import { getConfigOptions } from "../config/index.js";
 
 const config = getConfigOptions();
 export const LoggerToken = "logger";
