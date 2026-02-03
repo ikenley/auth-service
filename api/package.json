@@ -36,7 +36,7 @@
     "jwt-decode": "^4.0.0",
     "method-override": "^3.0.0",
     "morgan": "^1.10.0",
-    "pg": "^8.17.1",
+    "pg": "^8.18.0",
     "reflect-metadata": "^0.2.2",
     "tsyringe": "^4.10.0",
     "typeorm": "^0.3.28",
