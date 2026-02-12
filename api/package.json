@@ -27,7 +27,7 @@
     "@aws-sdk/client-cognito-identity-provider": "^3.975.0",
     "@aws-sdk/client-ssm": "^3.975.0",
     "@vendia/serverless-express": "^4.12.6",
-    "axios": "^1.13.3",
+    "axios": "^1.13.5",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
