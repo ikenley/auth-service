@@ -30,6 +30,10 @@
     ],
     "baseUrl": "./"
   },
+  "ts-node": {
+    "esm": true,
+    "experimentalResolver": true
+  },
   "include": [
     "src/**/*.ts"
   ],

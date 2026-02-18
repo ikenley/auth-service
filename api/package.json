@@ -6,16 +6,15 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "cli": "tsx src/cli.ts",
+    "cli": "node --loader ts-node/esm src/cli.ts",
     "dev": "tsc --project tsconfig.json --watch & NODE_ENV=development nodemon dist",
     "prestart": "npm run build",
     "start": "nodemon",
     "test": "jest --detectOpenHandles",
     "test-coverage": "jest --coverage",
-    "test-invoke": "tsx ./src/test-invoke.ts",
+    "test-invoke": "node --loader ts-node/esm ./src/test-invoke.ts",
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
-    "clean": "rm -rf dist build",
-    "ts-node": "tsx"
+    "clean": "rm -rf dist build"
   },
   "author": "ikenley",
   "license": "SEE LICENSE IN LICENSE.txt",
@@ -61,7 +60,7 @@
     "nodemon": "^3.1.11",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.6",
-    "tsx": "^4.21.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
 }
