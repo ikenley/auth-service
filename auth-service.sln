@@ -1,0 +1,32 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prediction-app", "prediction-app", "{31FBA90D-BC5C-F7AF-22E0-14B4FA91E1AD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{373AF471-6313-DBB9-C8E3-548464211E65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PredictionApi", "prediction-app\api\PredictionApi.csproj", "{6B78B4E3-55B3-A35E-0B00-B9A36CCF2FDB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6B78B4E3-55B3-A35E-0B00-B9A36CCF2FDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B78B4E3-55B3-A35E-0B00-B9A36CCF2FDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B78B4E3-55B3-A35E-0B00-B9A36CCF2FDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B78B4E3-55B3-A35E-0B00-B9A36CCF2FDB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{373AF471-6313-DBB9-C8E3-548464211E65} = {31FBA90D-BC5C-F7AF-22E0-14B4FA91E1AD}
+		{6B78B4E3-55B3-A35E-0B00-B9A36CCF2FDB} = {373AF471-6313-DBB9-C8E3-548464211E65}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {84E2A7F9-AA57-419F-BD83-31CF5EC22BEC}
+	EndGlobalSection
+EndGlobal
