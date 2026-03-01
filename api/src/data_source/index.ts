@@ -1,3 +1,6 @@
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import { DataSource } from "typeorm";
 import { DatabaseOptions } from "../config/index.js";
 import OauthStateEntity from "../components/auth/OauthStateEntity.js";
@@ -14,6 +17,11 @@ export const initializeDataSource = async (
   db: DatabaseOptions
 ) => {
   if (dataSource === null) {
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const certPath = path.resolve(__dirname, "../../certs/global-bundle.pem");
+    logger.info("Resolved SSL certificate path", { certPath });
+    const ca = fs.readFileSync(certPath).toString();
+
     dataSource = new DataSource({
       type: "postgres",
       host: db.host,
@@ -24,6 +32,7 @@ export const initializeDataSource = async (
       synchronize: false,
       logging: false,
       entities: entities,
+      ssl: { rejectUnauthorized: true, ca },
     });
   }
   try {
