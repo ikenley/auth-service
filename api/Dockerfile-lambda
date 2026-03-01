@@ -23,6 +23,7 @@ COPY --from=builder /usr/app/package*.json ./
 RUN npm ci && npm prune --omit=dev
 
 COPY --from=builder /usr/app/dist ./dist
+COPY --from=builder /usr/app/certs ./certs
 
 ARG APP_VERSION
 ENV APP_VERSION=$APP_VERSION
