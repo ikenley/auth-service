@@ -24,6 +24,7 @@ export const initializeDataSource = async (
       synchronize: false,
       logging: false,
       entities: entities,
+      ssl: { rejectUnauthorized: false },
     });
   }
   try {
