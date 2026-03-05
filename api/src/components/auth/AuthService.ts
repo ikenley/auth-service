@@ -1,7 +1,6 @@
 import { injectable } from "tsyringe";
 import winston from "winston";
 import axios from "axios";
-import { DataSource, Repository } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 import { jwtDecode } from "jwt-decode";
 import { URLSearchParams } from "url";
@@ -19,23 +18,22 @@ import UnauthorizedException from "../../middleware/UnauthorizedException.js";
 import LoggerProvider from "../../utils/LoggerProvider.js";
 import OauthStateEntity from "./OauthStateEntity.js";
 import UserEntity from "./UserEntity.js";
+import OauthStateRepo from "./OauthStateRepo.js";
+import UserRepo from "./UserRepo.js";
 import LoginRequest from "./LoginRequest.js";
 
 @injectable()
 export default class AuthService {
   private logger: winston.Logger;
-  private userRepo: Repository<UserEntity>;
-  private oauthStateRepo: Repository<OauthStateEntity>;
 
   constructor(
     protected loggerProvider: LoggerProvider,
     protected config: ConfigOptions,
-    protected dataSource: DataSource,
+    protected oauthStateRepo: OauthStateRepo,
+    protected userRepo: UserRepo,
     protected cognitoIdpClient: CognitoIdentityProviderClient
   ) {
     this.logger = loggerProvider.provide("AuthService");
-    this.oauthStateRepo = dataSource.getRepository(OauthStateEntity);
-    this.userRepo = dataSource.getRepository(UserEntity);
   }
 
   /** Initiate login for Cognito hosted UI:
@@ -74,15 +72,17 @@ export default class AuthService {
     redirectUrl: string,
     workflowType: WorkflowType
   ) {
-    const oauthState: OauthStateEntity = {
-      id: uuidv4(),
-      redirectUrl,
-      startedAt: new Date(),
-      completedAt: null,
-      userId: null,
-      workflowType,
-    };
-    await this.oauthStateRepo.save(oauthState);
+    const startedAt = new Date();
+    const oauthState = new OauthStateEntity();
+    oauthState.id = uuidv4();
+    oauthState.redirectUrl = redirectUrl;
+    oauthState.startedAt = startedAt;
+    oauthState.completedAt = null;
+    oauthState.userId = null;
+    oauthState.workflowType = workflowType;
+    oauthState.ttl = Math.floor(startedAt.getTime() / 1000) + 3600;
+
+    await this.oauthStateRepo.create(oauthState);
     this.logger.info("createOauthState", {
       state: oauthState.id,
       redirectUrl: "TODO",
@@ -115,9 +115,7 @@ export default class AuthService {
     const refreshToken = response.data.refresh_token;
 
     // Ensure OAuth state exists and has not been used
-    const oauthState = await this.oauthStateRepo.findOneOrFail({
-      where: { id: state },
-    });
+    const oauthState = await this.oauthStateRepo.getById(state);
     if (oauthState.completedAt !== null) {
       this.logger.warn("Invalid OAuth state", { oauthState });
       throw new Error("Invalid OAuth state");
@@ -127,39 +125,37 @@ export default class AuthService {
     const user = await this.upsertUser(idToken);
 
     // Complete OAuth state
-    oauthState.userId = user.id;
-    oauthState.completedAt = new Date();
-    await this.oauthStateRepo.save(oauthState);
+    const completedAt = new Date();
+    await this.oauthStateRepo.complete(oauthState.id, user.id, completedAt);
 
     return { refreshToken, redirectUrl: oauthState.redirectUrl };
   }
 
-  /** Upserts user in identity token into auth.user table. */
+  /** Upserts user in identity token into user table. */
   private async upsertUser(encodedIdToken: string) {
     const idToken = jwtDecode(encodedIdToken) as any; // TODO
     const now = new Date();
 
     // Find user if exists
-    let user = await this.userRepo.findOne({ where: { id: idToken.sub } });
+    let user = await this.userRepo.findById(idToken.sub);
 
     // If user exists, update last accessed
     if (user) {
       this.logger.info("User exists, updating lastAccessed", { user });
+      await this.userRepo.updateLastAccessed(user.id, now);
       user.lastAccessed = now;
-      await this.userRepo.save(user);
     }
     // Else create new user record
     else {
-      user = {
-        id: idToken.sub,
-        firstName: idToken.given_name,
-        lastName: idToken.family_name,
-        email: idToken.email,
-        created: now,
-        lastAccessed: now,
-      };
+      user = new UserEntity();
+      user.id = idToken.sub;
+      user.firstName = idToken.given_name;
+      user.lastName = idToken.family_name;
+      user.email = idToken.email;
+      user.created = now;
+      user.lastAccessed = now;
       this.logger.info("Creating new user", { user });
-      await this.userRepo.save(user);
+      await this.userRepo.create(user);
     }
 
     return user;

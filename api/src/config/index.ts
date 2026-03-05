@@ -7,14 +7,6 @@ dotenv.config({ path: "../.env" });
 
 type AppEnv = "local" | "test" | "dev" | "staging" | "prod";
 
-export type DatabaseOptions = {
-  host: string;
-  port: number;
-  user: string;
-  password: string;
-  database: string;
-};
-
 export class ConfigOptions {
   api: { prefix: string };
   app: { env: AppEnv; name: string; version: string };
@@ -29,7 +21,10 @@ export class ConfigOptions {
     clientId: string;
     clientSecret: string;
   };
-  db: DatabaseOptions;
+  dynamo: {
+    userTableName: string;
+    oauthStateTableName: string;
+  };
   logs: { level: string };
   nodeEnv: string;
   port: number;
@@ -58,12 +53,9 @@ export const getConfigOptions = () => {
       clientId: process.env.COGNITO_USER_POOL_CLIENT_ID!,
       clientSecret: process.env.COGNITO_USER_POOL_CLIENT_SECRET!,
     },
-    db: {
-      host: process.env.PGHOST!,
-      port: parseInt(process.env.PGPORT!),
-      user: process.env.PGUSER!,
-      password: process.env.PGPASSWORD!,
-      database: process.env.PGDATABASE!,
+    dynamo: {
+      userTableName: process.env.USER_TABLE_NAME!,
+      oauthStateTableName: process.env.OAUTH_STATE_TABLE_NAME!,
     },
     logs: { level: process.env.LOGS__LEVEL || "http" },
     nodeEnv: process.env.NODE_ENV!,

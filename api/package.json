@@ -24,7 +24,9 @@
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity-provider": "^3.991.0",
+    "@aws-sdk/client-dynamodb": "^3.996.0",
     "@aws-sdk/client-ssm": "^3.996.0",
+    "@aws-sdk/lib-dynamodb": "^3.996.0",
     "@vendia/serverless-express": "^4.12.6",
     "axios": "^1.13.5",
     "cookie-parser": "^1.4.7",
@@ -35,10 +37,8 @@
     "jwt-decode": "^4.0.0",
     "method-override": "^3.0.0",
     "morgan": "^1.10.0",
-    "pg": "^8.18.0",
     "reflect-metadata": "^0.2.2",
     "tsyringe": "^4.10.0",
-    "typeorm": "^0.3.28",
     "uuid": "^13.0.0",
     "winston": "^3.19.0"
   },
