@@ -12,8 +12,8 @@ import exceptionMiddleware from "../middleware/exceptionMiddleware.js";
 import RouteService from "../routes/RouteService.js";
 
 const getCorsOrigin = (config: ConfigOptions) => {
-  const { baseDomain, app } = config;
-  if (!baseDomain || baseDomain === "" || app.env === "local") {
+  const { baseDomain } = config;
+  if (!baseDomain) {
     return undefined;
   }
 
@@ -23,7 +23,7 @@ const getCorsOrigin = (config: ConfigOptions) => {
 
 @injectable()
 export default class ExpressLoader {
-  constructor(protected routeService: RouteService) {}
+  constructor(protected routeService: RouteService) { }
 
   public load(app: express.Application) {
     const config = getConfigOptions();

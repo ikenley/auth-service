@@ -1,13 +1,13 @@
 import { container } from "tsyringe";
 import { NIL } from "uuid";
-import { DataSource } from "typeorm";
 import { CognitoIdentityProviderClient } from "@aws-sdk/client-cognito-identity-provider";
 import LoggerInstance from "./logger.js";
-//import CognitoExpress from "cognito-express";
 import { ConfigOptions, getConfigOptions } from "../config/index.js";
 import { LoggerToken } from "./logger.js";
 import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware.js";
-import { initializeDataSource } from "../data_source/index.js";
+import { createDynamoDocumentClient } from "../data_source/index.js";
+
+export const DynamoClientToken = "DynamoDBDocumentClient";
 
 export default async () => {
   try {
@@ -20,14 +20,6 @@ export default async () => {
     // This will be replaced by request-level dependency container in most cases
     container.register(RequestIdToken, { useValue: NIL });
 
-    // const cognitoExpress = new CognitoExpress({
-    //   region: config.aws.region,
-    //   cognitoUserPoolId: config.cognito.userPoolId,
-    //   tokenUse: "id",
-    //   tokenExpiration: 3600000,
-    // });
-    // container.register("CognitoExpress", { useValue: cognitoExpress });
-
     const cognitoIdpClient = new CognitoIdentityProviderClient({
       region: config.aws.region,
     }) as any;
@@ -35,9 +27,9 @@ export default async () => {
       useValue: cognitoIdpClient,
     });
 
-    // Register database connection
-    const dataSource = await initializeDataSource(LoggerInstance, config.db);
-    container.register(DataSource, { useValue: dataSource });
+    // Register DynamoDB DocumentClient
+    const docClient = createDynamoDocumentClient(config.aws.region);
+    container.register(DynamoClientToken, { useValue: docClient });
   } catch (e) {
     LoggerInstance.error("🔥 Error on dependency injector loader: %o", e);
     throw e;
