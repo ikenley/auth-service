@@ -23,7 +23,7 @@
     "url": "https://github.com/ikenley/auth-service"
   },
   "dependencies": {
-    "@aws-sdk/client-cognito-identity-provider": "^3.991.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.1005.0",
     "@aws-sdk/client-dynamodb": "^3.996.0",
     "@aws-sdk/client-ssm": "^3.1002.0",
     "@aws-sdk/lib-dynamodb": "^3.996.0",
