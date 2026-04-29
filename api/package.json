@@ -26,7 +26,7 @@
     "@aws-sdk/client-cognito-identity-provider": "^3.1038.0",
     "@aws-sdk/client-dynamodb": "^3.996.0",
     "@aws-sdk/client-ssm": "^3.1002.0",
-    "@aws-sdk/lib-dynamodb": "^3.1033.0",
+    "@aws-sdk/lib-dynamodb": "^3.1038.0",
     "@vendia/serverless-express": "^4.12.6",
     "axios": "^1.15.0",
     "cookie-parser": "^1.4.7",
