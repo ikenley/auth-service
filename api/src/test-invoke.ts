@@ -1,5 +1,5 @@
 import type { ALBEvent, Context } from "aws-lambda";
-import { handler } from "./index-lambda.js";
+import { handler } from "./index-lambda.ts";
 
 const event: ALBEvent = {
 	requestContext: {

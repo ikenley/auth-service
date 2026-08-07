@@ -1,4 +1,4 @@
-import type { UserType } from "../../types/index.js";
+import type { UserType } from "../../types/index.ts";
 
 export default class UserEntity implements UserType {
 	id: string;

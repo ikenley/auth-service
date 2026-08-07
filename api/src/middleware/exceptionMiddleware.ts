@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
-import { getConfigOptions } from "../config/index.js";
-import LoggerInstance from "../loaders/logger.js";
+import { getConfigOptions } from "../config/index.ts";
+import LoggerInstance from "../loaders/logger.ts";
 
 const config = getConfigOptions();
 

@@ -1,4 +1,4 @@
-import type { LoginRequestParams } from "../../types/index.js";
+import type { LoginRequestParams } from "../../types/index.ts";
 
 /** Sanitizes LoginRequestParams */
 export default class LoginRequest {

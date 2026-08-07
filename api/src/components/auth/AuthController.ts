@@ -1,31 +1,34 @@
+import type { AwilixContainer } from "awilix";
 import {
 	type CookieOptions,
 	type Request,
 	type Response,
 	Router,
 } from "express";
-import { type DependencyContainer, injectable } from "tsyringe";
-import type { ConfigOptions } from "../../config/index.js";
+import type { ConfigOptions } from "../../config/index.ts";
+import type { Cradle } from "../../loaders/cradle.ts";
 import type {
 	LoginCallbackRequestParams,
 	LoginRequestParams,
-} from "../../types/index.js";
-import AuthService from "./AuthService.js";
+} from "../../types/index.ts";
 
 const RefreshCookieName = "refresh";
 
 const route = Router();
 
-@injectable()
 export default class AuthController {
-	constructor(protected config: ConfigOptions) {}
+	protected config: ConfigOptions;
+
+	constructor({ config }: Cradle) {
+		this.config = config;
+	}
 
 	public registerRoutes(app: Router) {
 		app.use(route); // Auth controller uses top-level path prefix
 
 		const getService = (res: Response) => {
-			const container = res.locals.container as DependencyContainer;
-			return container.resolve(AuthService);
+			const requestScope = res.locals.container as AwilixContainer<Cradle>;
+			return requestScope.cradle.authService;
 		};
 
 		route.get(

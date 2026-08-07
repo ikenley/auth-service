@@ -1,4 +1,4 @@
-import { optionalEnv, requireEnv } from "./env.js";
+import { optionalEnv, requireEnv } from "./env.ts";
 
 // dotenv moved to ./env becuase that module loads first
 
