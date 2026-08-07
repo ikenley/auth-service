@@ -1,8 +1,8 @@
 import "reflect-metadata";
 import express from "express";
 import request from "supertest";
-import { getConfigOptions } from "../../../../src/config";
-import { closeDataSource } from "../../../../src/data_source";
+import { getConfigOptions } from "../../../../src/config/index";
+//import { closeDataSource } from "../../../../src/data_source";
 import loaders from "../../../../src/loaders/index";
 
 // beforeAll(async () => {
@@ -10,7 +10,7 @@ import loaders from "../../../../src/loaders/index";
 // });
 
 afterAll(async () => {
-	await closeDataSource();
+	// await closeDataSource();
 });
 
 // beforeEach(async () => {
