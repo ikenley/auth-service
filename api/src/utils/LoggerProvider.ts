@@ -8,13 +8,13 @@ import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware.js";
  */
 @injectable()
 export default class LoggerProvider {
-  constructor(
-    @inject(LoggerToken) private logger: winston.Logger,
-    @inject(RequestIdToken) private requestId: string
-  ) {}
+	constructor(
+		@inject(LoggerToken) private logger: winston.Logger,
+		@inject(RequestIdToken) private requestId: string,
+	) {}
 
-  /** Creates a child logger module */
-  public provide(moduleName: string) {
-    return this.logger.child({ module: moduleName, requestId: this.requestId });
-  }
+	/** Creates a child logger module */
+	public provide(moduleName: string) {
+		return this.logger.child({ module: moduleName, requestId: this.requestId });
+	}
 }

@@ -21,7 +21,7 @@ export default class SsmParamLoader {
 		});
 		const response = await this.client.send(command);
 
-		if (!response.Parameter || !response.Parameter.Value) {
+		if (!response?.Parameter?.Value) {
 			throw new Error("Invalid SSM Parameter");
 		}
 

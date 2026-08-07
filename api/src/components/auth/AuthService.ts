@@ -5,7 +5,7 @@ import {
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { injectable } from "tsyringe";
-import { URLSearchParams } from "url";
+import { URLSearchParams } from "node:url";
 import { v4 as uuidv4 } from "uuid";
 import type winston from "winston";
 import type { ConfigOptions } from "../../config/index.js";
@@ -195,10 +195,7 @@ export default class AuthService {
 		try {
 			const response = await this.cognitoIdpClient.send(command);
 
-			if (
-				!response.AuthenticationResult ||
-				!response.AuthenticationResult.IdToken
-			) {
+			if (!response?.AuthenticationResult?.IdToken) {
 				this.logger.info("empty AuthenticationResult");
 				throw new UnauthorizedException();
 			}

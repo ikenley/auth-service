@@ -1,9 +1,6 @@
-import dotenv from "dotenv";
+import { optionalEnv, requireEnv } from "./env.js";
 
-// Set the NODE_ENV to 'development' by default
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
-
-dotenv.config({ path: "../.env" });
+// dotenv moved to ./env becuase that module loads first
 
 type AppEnv = "local" | "test" | "dev" | "staging" | "prod";
 
@@ -40,26 +37,26 @@ export const getConfigOptions = () => {
 		app: {
 			env: process.env.APP_ENV as AppEnv,
 			name: process.env.APP_NAME || "auth-service",
-			version: process.env.APP_VERSION!,
+			version: requireEnv("APP_VERSION"),
 		},
 		aws: {
-			region: process.env.AWS_REGION!,
+			region: requireEnv("AWS_REGION"),
 		},
-		baseDomain: process.env.BASE_DOMAIN || null,
+		baseDomain: optionalEnv("BASE_DOMAIN") || null,
 		cognito: {
-			oathUrlPrefix: process.env.COGNITO_OAUTH_URL_PREFIX!,
-			oauthRedirectUrlPrefix: process.env.COGNITO_OAUTH_REDIRECT_URL_PREFIX!,
-			userPoolId: process.env.COGNITO_USER_POOL_ID!,
-			clientId: process.env.COGNITO_USER_POOL_CLIENT_ID!,
-			clientSecret: process.env.COGNITO_USER_POOL_CLIENT_SECRET!,
+			oathUrlPrefix: requireEnv("COGNITO_OAUTH_URL_PREFIX"),
+			oauthRedirectUrlPrefix: requireEnv("COGNITO_OAUTH_REDIRECT_URL_PREFIX"),
+			userPoolId: requireEnv("COGNITO_USER_POOL_ID"),
+			clientId: requireEnv("COGNITO_USER_POOL_CLIENT_ID"),
+			clientSecret: requireEnv("COGNITO_USER_POOL_CLIENT_SECRET"),
 		},
 		dynamo: {
-			userTableName: process.env.USER_TABLE_NAME!,
-			oauthStateTableName: process.env.OAUTH_STATE_TABLE_NAME!,
+			userTableName: requireEnv("USER_TABLE_NAME"),
+			oauthStateTableName: requireEnv("OAUTH_STATE_TABLE_NAME"),
 		},
-		logs: { level: process.env.LOGS__LEVEL || "http" },
-		nodeEnv: process.env.NODE_ENV!,
-		port: parseInt(process.env.PORT || "8080", 10),
+		logs: { level: optionalEnv("LOGS__LEVEL") || "http" },
+		nodeEnv: requireEnv("NODE_ENV"),
+		port: parseInt(optionalEnv("PORT") || "8080", 10),
 	};
 
 	return config;

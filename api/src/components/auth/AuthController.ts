@@ -47,7 +47,7 @@ export default class AuthController {
 				httpOnly: true,
 				sameSite: "strict",
 				// enable http for localhost only
-				secure: isLocal ? false : true,
+				secure: !isLocal,
 				domain: domain,
 			};
 			return cookieOptions;
@@ -55,7 +55,10 @@ export default class AuthController {
 
 		route.get(
 			"/login/callback",
-			async (req: Request<{}, {}, {}, LoginCallbackRequestParams>, res) => {
+			async (
+				req: Request<unknown, unknown, unknown, LoginCallbackRequestParams>,
+				res,
+			) => {
 				const service = getService(res);
 				const { redirectUrl, refreshToken } = await service.handleLoginCallback(
 					req.query,
@@ -65,7 +68,7 @@ export default class AuthController {
 				const cookieOptions = getCookieOptions();
 				cookieOptions.expires = new Date();
 				cookieOptions.expires.setTime(
-					new Date().getTime() + 30 * 24 * 60 * 60 * 1000,
+					new Date().now() + 30 * 24 * 60 * 60 * 1000,
 				); // +30 days
 				res.cookie(RefreshCookieName, refreshToken, cookieOptions);
 

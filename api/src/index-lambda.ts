@@ -9,6 +9,7 @@ import ExpressLoader from "./loaders/ExpressLoader.js";
 import loadGlobalDependencies from "./loaders/loadGlobalDependencies.js";
 import Logger from "./loaders/logger.js";
 import SsmParamLoader from "./loaders/SsmParamLoader.js";
+import { requireEnv } from "./config/env.js";
 
 let serverlessExpressInstance: any = null;
 
@@ -16,7 +17,7 @@ const setup = async (event: ALBEvent, context: Context) => {
 	// Inject SSM param configuration into env vars
 	const ssmClient = new SSMClient();
 	const ssmParamLoader = new SsmParamLoader(ssmClient);
-	const configParamName = process.env.CONFIG_SSM_PARAM_NAME!;
+	const configParamName = requireEnv("CONFIG_SSM_PARAM_NAME");
 	await ssmParamLoader.loadToEnv(configParamName);
 
 	const config = getConfigOptions();
