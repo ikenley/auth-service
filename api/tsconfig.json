@@ -22,7 +22,7 @@
 		"outDir": "./dist",
 		"types": ["node", "jest"],
 		"lib": ["ES6", "DOM"],
-		"baseUrl": "./"
+		"rootDir": "./"
 	},
 	"ts-node": {
 		"esm": true,

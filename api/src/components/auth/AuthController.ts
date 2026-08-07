@@ -67,9 +67,7 @@ export default class AuthController {
 				// Set cookie
 				const cookieOptions = getCookieOptions();
 				cookieOptions.expires = new Date();
-				cookieOptions.expires.setTime(
-					new Date().now() + 30 * 24 * 60 * 60 * 1000,
-				); // +30 days
+				cookieOptions.expires.setTime(Date.now() + 30 * 24 * 60 * 60 * 1000); // +30 days
 				res.cookie(RefreshCookieName, refreshToken, cookieOptions);
 
 				res.redirect(redirectUrl);

@@ -1,3 +1,4 @@
+import { URLSearchParams } from "node:url";
 import {
 	AdminInitiateAuthCommand,
 	type CognitoIdentityProviderClient,
@@ -5,7 +6,6 @@ import {
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { injectable } from "tsyringe";
-import { URLSearchParams } from "node:url";
 import { v4 as uuidv4 } from "uuid";
 import type winston from "winston";
 import type { ConfigOptions } from "../../config/index.js";
