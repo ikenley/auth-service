@@ -1,0 +1,13 @@
+{
+	// ts-jest used to type-check test files as a side effect of transforming
+	// them. `node --test` only strips types, so without this config the tests
+	// would not be type-checked at all. Used by `npm run typecheck`.
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"noEmit": true,
+		"rootDir": "./",
+		"types": ["node"]
+	},
+	"include": ["src/**/*.ts", "tests/**/*.ts"],
+	"exclude": ["node_modules"]
+}
