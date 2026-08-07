@@ -4,19 +4,15 @@ import {
 	PutCommand,
 	UpdateCommand,
 } from "@aws-sdk/lib-dynamodb";
-import { inject, injectable } from "tsyringe";
-import type { ConfigOptions } from "../../config/index.js";
-import { DynamoClientToken } from "../../loaders/loadGlobalDependencies.js";
-import OauthStateEntity from "./OauthStateEntity.js";
+import type { Cradle } from "../../loaders/cradle.ts";
+import OauthStateEntity from "./OauthStateEntity.ts";
 
-@injectable()
 export default class OauthStateRepo {
+	private docClient: DynamoDBDocumentClient;
 	private tableName: string;
 
-	constructor(
-		@inject(DynamoClientToken) private docClient: DynamoDBDocumentClient,
-		config: ConfigOptions,
-	) {
+	constructor({ docClient, config }: Cradle) {
+		this.docClient = docClient;
 		this.tableName = config.dynamo.oauthStateTableName;
 	}
 

@@ -4,12 +4,12 @@ import express from "express";
 import helmet from "helmet";
 import methodOverride from "method-override";
 import morgan from "morgan";
-import { injectable } from "tsyringe";
-import { type ConfigOptions, getConfigOptions } from "../config/index.js";
-import dependencyInjectionMiddleware from "../middleware/dependencyInjectionMiddleware.js";
-import exceptionMiddleware from "../middleware/exceptionMiddleware.js";
-import type RouteService from "../routes/RouteService.js";
-import logger from "./logger.js";
+import { type ConfigOptions, getConfigOptions } from "../config/index.ts";
+import dependencyInjectionMiddleware from "../middleware/dependencyInjectionMiddleware.ts";
+import exceptionMiddleware from "../middleware/exceptionMiddleware.ts";
+import type RouteService from "../routes/RouteService.ts";
+import type { Cradle } from "./cradle.ts";
+import logger from "./logger.ts";
 
 const getCorsOrigin = (config: ConfigOptions) => {
 	const { baseDomain } = config;
@@ -21,9 +21,12 @@ const getCorsOrigin = (config: ConfigOptions) => {
 	return new RegExp(`${domainPattern}:?\\d*$`);
 };
 
-@injectable()
 export default class ExpressLoader {
-	constructor(protected routeService: RouteService) {}
+	protected routeService: RouteService;
+
+	constructor({ routeService }: Cradle) {
+		this.routeService = routeService;
+	}
 
 	public load(app: express.Application) {
 		const config = getConfigOptions();

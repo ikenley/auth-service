@@ -1,10 +1,8 @@
-import "reflect-metadata";
 import express from "express";
-import { container } from "tsyringe";
-import { getConfigOptions } from "./config/index.js";
-import ExpressLoader from "./loaders/ExpressLoader.js";
-import loadGlobalDependencies from "./loaders/loadGlobalDependencies.js";
-import Logger from "./loaders/logger.js";
+import { getConfigOptions } from "./config/index.ts";
+import container from "./loaders/container.ts";
+import loadGlobalDependencies from "./loaders/loadGlobalDependencies.ts";
+import Logger from "./loaders/logger.ts";
 
 async function startServer() {
 	const config = getConfigOptions();
@@ -13,7 +11,7 @@ async function startServer() {
 	// Register dependencies
 	await loadGlobalDependencies();
 	// Configure Express
-	const expressLoader = container.resolve(ExpressLoader);
+	const expressLoader = container.cradle.expressLoader;
 	await expressLoader.load(app);
 
 	app

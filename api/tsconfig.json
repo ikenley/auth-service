@@ -1,8 +1,11 @@
 {
 	"compilerOptions": {
 		"target": "ES2022",
-		"module": "ES2022",
-		"moduleResolution": "bundler",
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"erasableSyntaxOnly": true,
+		"allowImportingTsExtensions": true,
+		"rewriteRelativeImportExtensions": true,
 		"declaration": true,
 		"strict": true,
 		"noImplicitAny": true,
@@ -16,17 +19,11 @@
 		"skipLibCheck": true,
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
-		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true,
 		"sourceMap": true,
 		"outDir": "./dist",
 		"types": ["node", "jest"],
 		"lib": ["ES6", "DOM"],
-		"rootDir": "./"
-	},
-	"ts-node": {
-		"esm": true,
-		"experimentalResolver": true
+		"rootDir": "./src"
 	},
 	"include": ["src/**/*.ts"],
 	"exclude": ["node_modules", "**/*.test.ts"]

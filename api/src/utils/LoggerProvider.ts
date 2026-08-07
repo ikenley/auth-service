@@ -1,17 +1,17 @@
-import { inject, injectable } from "tsyringe";
 import type winston from "winston";
-import { LoggerToken } from "../loaders/logger.js";
-import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware.js";
+import type { Cradle } from "../loaders/cradle.ts";
 
 /** Provides a module-specific Logger instance.
  * Includes additional container-provides context values
  */
-@injectable()
 export default class LoggerProvider {
-	constructor(
-		@inject(LoggerToken) private logger: winston.Logger,
-		@inject(RequestIdToken) private requestId: string,
-	) {}
+	private logger: winston.Logger;
+	private requestId: string;
+
+	constructor({ logger, requestId }: Cradle) {
+		this.logger = logger;
+		this.requestId = requestId;
+	}
 
 	/** Creates a child logger module */
 	public provide(moduleName: string) {

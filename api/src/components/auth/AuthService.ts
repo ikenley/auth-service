@@ -5,34 +5,40 @@ import {
 } from "@aws-sdk/client-cognito-identity-provider";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { injectable } from "tsyringe";
 import { v4 as uuidv4 } from "uuid";
 import type winston from "winston";
-import type { ConfigOptions } from "../../config/index.js";
-import UnauthorizedException from "../../middleware/UnauthorizedException.js";
+import type { ConfigOptions } from "../../config/index.ts";
+import type { Cradle } from "../../loaders/cradle.ts";
+import UnauthorizedException from "../../middleware/UnauthorizedException.ts";
 import {
 	type LoginCallbackRequestParams,
 	type LoginRequestParams,
 	WorkflowType,
-} from "../../types/index.js";
-import type LoggerProvider from "../../utils/LoggerProvider.js";
-import LoginRequest from "./LoginRequest.js";
-import OauthStateEntity from "./OauthStateEntity.js";
-import type OauthStateRepo from "./OauthStateRepo.js";
-import UserEntity from "./UserEntity.js";
-import type UserRepo from "./UserRepo.js";
+} from "../../types/index.ts";
+import LoginRequest from "./LoginRequest.ts";
+import OauthStateEntity from "./OauthStateEntity.ts";
+import type OauthStateRepo from "./OauthStateRepo.ts";
+import UserEntity from "./UserEntity.ts";
+import type UserRepo from "./UserRepo.ts";
 
-@injectable()
 export default class AuthService {
 	private logger: winston.Logger;
+	protected config: ConfigOptions;
+	protected oauthStateRepo: OauthStateRepo;
+	protected userRepo: UserRepo;
+	protected cognitoIdpClient: CognitoIdentityProviderClient;
 
-	constructor(
-		protected loggerProvider: LoggerProvider,
-		protected config: ConfigOptions,
-		protected oauthStateRepo: OauthStateRepo,
-		protected userRepo: UserRepo,
-		protected cognitoIdpClient: CognitoIdentityProviderClient,
-	) {
+	constructor({
+		loggerProvider,
+		config,
+		oauthStateRepo,
+		userRepo,
+		cognitoIdpClient,
+	}: Cradle) {
+		this.config = config;
+		this.oauthStateRepo = oauthStateRepo;
+		this.userRepo = userRepo;
+		this.cognitoIdpClient = cognitoIdpClient;
 		this.logger = loggerProvider.provide("AuthService");
 	}
 

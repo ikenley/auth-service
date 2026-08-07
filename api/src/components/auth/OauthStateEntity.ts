@@ -1,4 +1,4 @@
-import type { OauthStateType, WorkflowType } from "../../types/index.js";
+import type { OauthStateType, WorkflowType } from "../../types/index.ts";
 
 export default class OauthStateEntity implements OauthStateType {
 	id: string;

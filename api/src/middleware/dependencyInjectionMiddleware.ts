@@ -1,10 +1,9 @@
+import { asValue } from "awilix";
 import type { NextFunction, Request, Response } from "express";
-import { container } from "tsyringe";
 import { v4 as uuidv4 } from "uuid";
+import container from "../loaders/container.ts";
 
-export const RequestIdToken = "requestId";
-
-/** Create a request-level dependency injection container.
+/** Create a request-level dependency injection scope.
  * Useful for request-scoped dependencies.
  * Also useful for log tracing, via the requestId
  */
@@ -15,9 +14,9 @@ export const dependencyInjectionMiddleware = async (
 ) => {
 	const requestId = uuidv4();
 
-	const requestContainer = container.createChildContainer();
-	requestContainer.register(RequestIdToken, { useValue: requestId });
-	res.locals.container = requestContainer;
+	const requestScope = container.createScope();
+	requestScope.register({ requestId: asValue(requestId) });
+	res.locals.container = requestScope;
 
 	next();
 

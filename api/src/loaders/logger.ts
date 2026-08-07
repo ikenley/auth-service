@@ -1,8 +1,7 @@
 import winston from "winston";
-import { getConfigOptions } from "../config/index.js";
+import { getConfigOptions } from "../config/index.ts";
 
 const config = getConfigOptions();
-export const LoggerToken = "logger";
 
 const transports = [];
 if (process.env.NODE_ENV === "test") {
