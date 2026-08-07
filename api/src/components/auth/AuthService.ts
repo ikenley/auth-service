@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { URLSearchParams } from "node:url";
 import {
 	AdminInitiateAuthCommand,
@@ -5,7 +6,6 @@ import {
 } from "@aws-sdk/client-cognito-identity-provider";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { v4 as uuidv4 } from "uuid";
 import type winston from "winston";
 import type { ConfigOptions } from "../../config/index.ts";
 import type { Cradle } from "../../loaders/cradle.ts";
@@ -80,7 +80,7 @@ export default class AuthService {
 	) {
 		const startedAt = new Date();
 		const oauthState = new OauthStateEntity();
-		oauthState.id = uuidv4();
+		oauthState.id = randomUUID();
 		oauthState.redirectUrl = redirectUrl;
 		oauthState.startedAt = startedAt;
 		oauthState.completedAt = null;

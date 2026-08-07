@@ -1,5 +1,5 @@
+import { randomUUID } from "node:crypto";
 import type { Request, Response } from "express";
-import { v4 as uuidv4 } from "uuid";
 import { getConfigOptions } from "../config/index.ts";
 import LoggerInstance from "../loaders/logger.ts";
 
@@ -13,7 +13,7 @@ export const exceptionMiddleware = (
 ) => {
 	const nodeEnv = config.nodeEnv;
 	const isProduction = nodeEnv !== "development";
-	const errorId = uuidv4();
+	const errorId = randomUUID();
 	const defaultMessage = `An error occurred. Error code: ${errorId}`;
 
 	const { message, stack } = err;

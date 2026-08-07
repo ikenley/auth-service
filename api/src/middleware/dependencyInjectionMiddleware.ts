@@ -1,6 +1,6 @@
+import { randomUUID } from "node:crypto";
 import { asValue } from "awilix";
 import type { NextFunction, Request, Response } from "express";
-import { v4 as uuidv4 } from "uuid";
 import container from "../loaders/container.ts";
 
 /** Create a request-level dependency injection scope.
@@ -12,7 +12,7 @@ export const dependencyInjectionMiddleware = async (
 	res: Response,
 	next: NextFunction,
 ) => {
-	const requestId = uuidv4();
+	const requestId = randomUUID();
 
 	const requestScope = container.createScope();
 	requestScope.register({ requestId: asValue(requestId) });
