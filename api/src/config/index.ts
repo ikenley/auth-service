@@ -1,33 +1,30 @@
-import dotenv from "dotenv";
+import { optionalEnv, requireEnv } from "./env.js";
 
-// Set the NODE_ENV to 'development' by default
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
-
-dotenv.config({ path: "../.env" });
+// dotenv moved to ./env becuase that module loads first
 
 type AppEnv = "local" | "test" | "dev" | "staging" | "prod";
 
 export class ConfigOptions {
-  api: { prefix: string };
-  app: { env: AppEnv; name: string; version: string };
-  aws: {
-    region: string;
-  };
-  baseDomain: string | null;
-  cognito: {
-    oathUrlPrefix: string;
-    oauthRedirectUrlPrefix: string;
-    userPoolId: string;
-    clientId: string;
-    clientSecret: string;
-  };
-  dynamo: {
-    userTableName: string;
-    oauthStateTableName: string;
-  };
-  logs: { level: string };
-  nodeEnv: string;
-  port: number;
+	api: { prefix: string };
+	app: { env: AppEnv; name: string; version: string };
+	aws: {
+		region: string;
+	};
+	baseDomain: string | null;
+	cognito: {
+		oathUrlPrefix: string;
+		oauthRedirectUrlPrefix: string;
+		userPoolId: string;
+		clientId: string;
+		clientSecret: string;
+	};
+	dynamo: {
+		userTableName: string;
+		oauthStateTableName: string;
+	};
+	logs: { level: string };
+	nodeEnv: string;
+	port: number;
 }
 
 /** Get ConfigOptions from env vars.
@@ -35,32 +32,32 @@ export class ConfigOptions {
  *    give bootstrap services time to inject env vars)
  */
 export const getConfigOptions = () => {
-  const config: ConfigOptions = {
-    api: { prefix: "/auth/api" },
-    app: {
-      env: process.env.APP_ENV as AppEnv,
-      name: process.env.APP_NAME || "auth-service",
-      version: process.env.APP_VERSION!,
-    },
-    aws: {
-      region: process.env.AWS_REGION!,
-    },
-    baseDomain: process.env.BASE_DOMAIN || null,
-    cognito: {
-      oathUrlPrefix: process.env.COGNITO_OAUTH_URL_PREFIX!,
-      oauthRedirectUrlPrefix: process.env.COGNITO_OAUTH_REDIRECT_URL_PREFIX!,
-      userPoolId: process.env.COGNITO_USER_POOL_ID!,
-      clientId: process.env.COGNITO_USER_POOL_CLIENT_ID!,
-      clientSecret: process.env.COGNITO_USER_POOL_CLIENT_SECRET!,
-    },
-    dynamo: {
-      userTableName: process.env.USER_TABLE_NAME!,
-      oauthStateTableName: process.env.OAUTH_STATE_TABLE_NAME!,
-    },
-    logs: { level: process.env.LOGS__LEVEL || "http" },
-    nodeEnv: process.env.NODE_ENV!,
-    port: parseInt(process.env.PORT || "8080", 10),
-  };
+	const config: ConfigOptions = {
+		api: { prefix: "/auth/api" },
+		app: {
+			env: process.env.APP_ENV as AppEnv,
+			name: process.env.APP_NAME || "auth-service",
+			version: requireEnv("APP_VERSION"),
+		},
+		aws: {
+			region: requireEnv("AWS_REGION"),
+		},
+		baseDomain: optionalEnv("BASE_DOMAIN") || null,
+		cognito: {
+			oathUrlPrefix: requireEnv("COGNITO_OAUTH_URL_PREFIX"),
+			oauthRedirectUrlPrefix: requireEnv("COGNITO_OAUTH_REDIRECT_URL_PREFIX"),
+			userPoolId: requireEnv("COGNITO_USER_POOL_ID"),
+			clientId: requireEnv("COGNITO_USER_POOL_CLIENT_ID"),
+			clientSecret: requireEnv("COGNITO_USER_POOL_CLIENT_SECRET"),
+		},
+		dynamo: {
+			userTableName: requireEnv("USER_TABLE_NAME"),
+			oauthStateTableName: requireEnv("OAUTH_STATE_TABLE_NAME"),
+		},
+		logs: { level: optionalEnv("LOGS__LEVEL") || "http" },
+		nodeEnv: requireEnv("NODE_ENV"),
+		port: parseInt(optionalEnv("PORT") || "8080", 10),
+	};
 
-  return config;
+	return config;
 };

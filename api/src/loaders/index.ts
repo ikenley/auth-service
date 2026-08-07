@@ -1,14 +1,14 @@
+import type express from "express";
 import { container } from "tsyringe";
-import loadGlobalDependencies from "./loadGlobalDependencies.js";
 import ExpressLoader from "./ExpressLoader.js";
-import express from "express";
+import loadGlobalDependencies from "./loadGlobalDependencies.js";
 
 interface LoaderOptions {
-  expressApp: express.Application;
+	expressApp: express.Application;
 }
 
 export default async ({ expressApp }: LoaderOptions) => {
-  await loadGlobalDependencies();
-  const expressLoader = container.resolve(ExpressLoader);
-  expressLoader.load(expressApp);
+	await loadGlobalDependencies();
+	const expressLoader = container.resolve(ExpressLoader);
+	expressLoader.load(expressApp);
 };

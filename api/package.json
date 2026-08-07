@@ -13,7 +13,10 @@
 		"test": "jest --detectOpenHandles",
 		"test-coverage": "jest --coverage",
 		"test-invoke": "node --loader ts-node/esm ./src/test-invoke.ts",
-		"lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
+		"check": "biome check --write",
+		"format": "biome format --write",
+		"lint": "biome lint",
+		"lint:write": "biome lint --write",
 		"clean": "rm -rf dist build"
 	},
 	"author": "ikenley",
@@ -43,6 +46,7 @@
 		"winston": "^3.19.0"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "2.5.7",
 		"@types/aws-lambda": "^8.10.162",
 		"@types/cookie-parser": "^1.4.10",
 		"@types/cors": "^2.8.19",
@@ -53,9 +57,6 @@
 		"@types/node": "^26.1.2",
 		"@types/supertest": "^7.2.1",
 		"@types/uuid": "^11.0.0",
-		"@typescript-eslint/eslint-plugin": "^8.66.0",
-		"@typescript-eslint/parser": "^8.66.0",
-		"eslint": "^10.8.0",
 		"jest": "^30.4.2",
 		"nodemon": "^3.1.14",
 		"supertest": "^7.2.2",

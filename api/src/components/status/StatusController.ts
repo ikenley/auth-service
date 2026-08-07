@@ -1,26 +1,26 @@
-import { injectable } from "tsyringe";
 import { Router } from "express";
-import { ConfigOptions } from "../../config/index.js";
+import { injectable } from "tsyringe";
+import type { ConfigOptions } from "../../config/index.js";
 
 const route = Router();
 
 @injectable()
 export default class StatusController {
-  constructor(protected config: ConfigOptions) {}
+	constructor(protected config: ConfigOptions) {}
 
-  public registerRoutes(app: Router) {
-    app.use("/status", route);
+	public registerRoutes(app: Router) {
+		app.use("/status", route);
 
-    route.get("/", (_req, res) => {
-      res.send({ status: "ok" });
-    });
+		route.get("/", (_req, res) => {
+			res.send({ status: "ok" });
+		});
 
-    route.get("/health", (_req, res) => {
-      res.send({ status: "ok" });
-    });
+		route.get("/health", (_req, res) => {
+			res.send({ status: "ok" });
+		});
 
-    route.get("/info", (_req, res) => {
-      res.send(this.config.app);
-    });
-  }
+		route.get("/info", (_req, res) => {
+			res.send(this.config.app);
+		});
+	}
 }
