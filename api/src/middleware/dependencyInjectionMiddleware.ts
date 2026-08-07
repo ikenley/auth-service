@@ -1,5 +1,5 @@
+import type { NextFunction, Request, Response } from "express";
 import { container } from "tsyringe";
-import { Request, Response, NextFunction } from "express";
 import { v4 as uuidv4 } from "uuid";
 
 export const RequestIdToken = "requestId";
@@ -9,19 +9,19 @@ export const RequestIdToken = "requestId";
  * Also useful for log tracing, via the requestId
  */
 export const dependencyInjectionMiddleware = async (
-  _req: Request,
-  res: Response,
-  next: NextFunction
+	_req: Request,
+	res: Response,
+	next: NextFunction,
 ) => {
-  const requestId = uuidv4();
+	const requestId = uuidv4();
 
-  const requestContainer = container.createChildContainer();
-  requestContainer.register(RequestIdToken, { useValue: requestId });
-  res.locals.container = requestContainer;
+	const requestContainer = container.createChildContainer();
+	requestContainer.register(RequestIdToken, { useValue: requestId });
+	res.locals.container = requestContainer;
 
-  next();
+	next();
 
-  return;
+	return;
 };
 
 export default dependencyInjectionMiddleware;

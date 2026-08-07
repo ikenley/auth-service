@@ -1,5 +1,5 @@
-import { injectable, inject } from "tsyringe";
-import winston from "winston";
+import { inject, injectable } from "tsyringe";
+import type winston from "winston";
 import { LoggerToken } from "../loaders/logger.js";
 import { RequestIdToken } from "../middleware/dependencyInjectionMiddleware.js";
 

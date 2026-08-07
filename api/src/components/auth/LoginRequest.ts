@@ -1,25 +1,25 @@
-import { LoginRequestParams } from "../../types/index.js";
+import type { LoginRequestParams } from "../../types/index.js";
 
 /** Sanitizes LoginRequestParams */
 export default class LoginRequest {
-  redirectUrl: string;
+	redirectUrl: string;
 
-  constructor(params: LoginRequestParams, baseDomain: string | null) {
-    const { r } = params;
+	constructor(params: LoginRequestParams, baseDomain: string | null) {
+		const { r } = params;
 
-    if (!r) {
-      throw new Error(`No redirect URL found`);
-    }
+		if (!r) {
+			throw new Error(`No redirect URL found`);
+		}
 
-    if (r.startsWith("/")) {
-      this.redirectUrl = r;
-    } else if (baseDomain) {
-      const url = new URL(r);
-      if (url.host.endsWith(baseDomain)) {
-        this.redirectUrl = r;
-      }
-    } else {
-      throw new Error(`Invalid redirect URL: ${r}`);
-    }
-  }
+		if (r.startsWith("/")) {
+			this.redirectUrl = r;
+		} else if (baseDomain) {
+			const url = new URL(r);
+			if (url.host.endsWith(baseDomain)) {
+				this.redirectUrl = r;
+			}
+		} else {
+			throw new Error(`Invalid redirect URL: ${r}`);
+		}
+	}
 }

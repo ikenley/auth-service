@@ -1,11 +1,11 @@
-import { injectable, inject } from "tsyringe";
 import {
-  DynamoDBDocumentClient,
-  PutCommand,
+  type DynamoDBDocumentClient,
   GetCommand,
+  PutCommand,
   UpdateCommand,
 } from "@aws-sdk/lib-dynamodb";
-import { ConfigOptions } from "../../config/index.js";
+import { inject, injectable } from "tsyringe";
+import type { ConfigOptions } from "../../config/index.js";
 import { DynamoClientToken } from "../../loaders/loadGlobalDependencies.js";
 import UserEntity from "./UserEntity.js";
 

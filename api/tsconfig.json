@@ -1,44 +1,33 @@
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "ES2022",
-    "moduleResolution": "bundler",
-    "declaration": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "strictPropertyInitialization": false,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "sourceMap": true,
-    "outDir": "./dist",
-    "types": [
-      "node",
-      "jest"
-    ],
-    "lib": [
-      "ES6",
-      "DOM"
-    ],
-    "baseUrl": "./"
-  },
-  "ts-node": {
-    "esm": true,
-    "experimentalResolver": true
-  },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.test.ts"
-  ]
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ES2022",
+		"moduleResolution": "bundler",
+		"declaration": true,
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"strictPropertyInitialization": false,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"sourceMap": true,
+		"outDir": "./dist",
+		"types": ["node", "jest"],
+		"lib": ["ES6", "DOM"],
+		"baseUrl": "./"
+	},
+	"ts-node": {
+		"esm": true,
+		"experimentalResolver": true
+	},
+	"include": ["src/**/*.ts"],
+	"exclude": ["node_modules", "**/*.test.ts"]
 }
