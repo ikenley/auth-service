@@ -3,14 +3,13 @@ import type { Request, Response } from "express";
 import { getConfigOptions } from "../config/index.ts";
 import LoggerInstance from "../loaders/logger.ts";
 
-const config = getConfigOptions();
-
 export const exceptionMiddleware = (
 	err: any,
 	_req: Request,
 	res: Response,
 	_next: any,
 ) => {
+	const config = getConfigOptions();
 	const nodeEnv = config.nodeEnv;
 	const isProduction = nodeEnv !== "development";
 	const errorId = randomUUID();
