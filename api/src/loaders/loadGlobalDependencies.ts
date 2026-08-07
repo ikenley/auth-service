@@ -1,6 +1,5 @@
 import { CognitoIdentityProviderClient } from "@aws-sdk/client-cognito-identity-provider";
 import { asClass, asValue } from "awilix";
-import { NIL } from "uuid";
 import AuthController from "../components/auth/AuthController.ts";
 import AuthService from "../components/auth/AuthService.ts";
 import OauthStateRepo from "../components/auth/OauthStateRepo.ts";
@@ -14,6 +13,12 @@ import container from "./container.ts";
 import ExpressLoader from "./ExpressLoader.ts";
 import LoggerInstance from "./logger.ts";
 
+/** The RFC 4122 nil UUID, used as the request id outside of any request scope.
+ * Previously `NIL` from the `uuid` package, which `node:crypto` has no
+ * equivalent for — it only generates UUIDs.
+ */
+const NIL_UUID = "00000000-0000-0000-0000-000000000000";
+
 export default async () => {
 	try {
 		const config = getConfigOptions();
@@ -23,7 +28,7 @@ export default async () => {
 			logger: asValue(LoggerInstance),
 
 			// Default request Id. Replaced per request by the request-level scope.
-			requestId: asValue(NIL),
+			requestId: asValue(NIL_UUID),
 
 			cognitoIdpClient: asValue(
 				new CognitoIdentityProviderClient({ region: config.aws.region }),
